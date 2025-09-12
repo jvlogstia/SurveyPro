@@ -334,4 +334,4 @@ if __name__ == "__main__":
         db.create_all()
     # Flip DEBUG via env DEBUG=1 if needed
     debug = bool_from_env("DEBUG", False)
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 8000)), debug=debug)
+    app.run(host='0.0.0.0', port=80)
