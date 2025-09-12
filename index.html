@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SurveyCraft Pro | Connect</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ["Inter", "ui-sans-serif", "system-ui"] },
+          colors: {
+            primary: { 50:'#eef2ff',100:'#e0e7ff',200:'#c7d2fe',300:'#a5b4fc',400:'#818cf8',500:'#6366f1',600:'#4f46e5',700:'#4338ca',800:'#3730a3',900:'#312e81' },
+            accent: { 50:'#faf5ff',100:'#f3e8ff',200:'#e9d5ff',300:'#d8b4fe',400:'#c084fc',500:'#a855f7',600:'#9333ea',700:'#7e22ce',800:'#6b21a8',900:'#581c87' },
+            ink: { 50:'#f8fafc',100:'#f1f5f9',200:'#e2e8f0',300:'#cbd5e1',400:'#94a3b8',500:'#64748b',600:'#475569',700:'#334155',800:'#1e293b',900:'#0f172a' },
+            security: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534',900:'#14532d' }
+          },
+          boxShadow: { glow: '0 10px 40px rgba(99,102,241,.25)' },
+          keyframes: {
+            fadeup: {
+              '0%': { opacity: 0, transform: 'translateY(16px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            float: {
+              '0%': { transform: 'translateY(0) translateX(0)' },
+              '50%': { transform: 'translateY(-8px) translateX(4px)' },
+              '100%': { transform: 'translateY(0) translateX(0)' }
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '200% 0' },
+              '100%': { backgroundPosition: '-200% 0' }
+            },
+            pulse: {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.5 }
+            }
+          },
+          animation: {
+            fadeup: 'fadeup .5s ease-out both',
+            float: 'float 6s ease-in-out infinite',
+            shimmer: 'shimmer 2s linear infinite',
+            pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    html,body{height:100%}
+    body{font-family: 'Inter', sans-serif; background: radial-gradient(1200px 600px at 10% 10%, rgba(99,102,241,.10), transparent 60%), radial-gradient(900px 500px at 90% 0%, rgba(168,85,247,.08), transparent 50%), #0b1020; color:#e5e7eb}
+    .glass{backdrop-filter: blur(16px) saturate(160%); background: rgba(17,24,39,.66); border:1px solid rgba(255,255,255,.08)}
+    .card{background: rgba(17,24,39,.78); border:1px solid rgba(255,255,255,.08); border-radius: 16px}
+    .field{background: rgba(255,255,255,.06); border:1px solid transparent; border-radius:12px; padding:.75rem 1rem; transition:.2s}
+    .field:focus{outline:none; border-color: rgba(99,102,241,.6); box-shadow: 0 0 0 4px rgba(99,102,241,.20)}
+    .btn{position:relative; display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:12px; padding:.75rem 1rem; font-weight:600; transition: transform .15s, box-shadow .15s}
+    .btn-primary{background: linear-gradient(90deg, #6366f1, #8b5cf6); color:white}
+    .btn-primary:hover{transform: translateY(-1px); box-shadow: 0 10px 30px rgba(99,102,241,.25)}
+    .btn-ghost{background: rgba(255,255,255,.04); color:#e5e7eb; border:1px solid rgba(255,255,255,.08)}
+    .btn-ghost:hover{background: rgba(255,255,255,.06)}
+    .btn-security{background: linear-gradient(90deg, #22c55e, #16a34a); color:white}
+    .btn-security:hover{transform: translateY(-1px); box-shadow: 0 10px 30px rgba(34,197,94,.25)}
+    .nav-item{display:flex; align-items:center; gap:.75rem; padding:.75rem .9rem; border-radius:12px; color:#e5e7eb; transition:.2s}
+    .nav-item:hover{background: rgba(99,102,241,.12)}
+    .nav-item.active{background: rgba(99,102,241,.18); color:#c7d2fe}
+    .metric{min-height:108px}
+    .kpi{font-variant-numeric: tabular-nums}
+    .empty{border:1px dashed rgba(255,255,255,.18); background: rgba(255,255,255,.03)}
+    .badge{border-radius:9999px; padding:.35rem .6rem; font-size:.75rem; border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05)}
+    .badge-security{background: rgba(34,197,94,.15); border-color: rgba(34,197,94,.3); color: #86efac}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .modal{position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; z-index:50; padding:1rem}
+    .modal-content{max-width:32rem; width:100%; max-height:90vh; overflow-y:auto}
+    .survey-option{transition:all .2s}
+    .survey-option:hover{transform:translateY(-2px); box-shadow:0 10px 25px -5px rgba(0,0,0,.3)}
+    .language-flag{width:1.5rem; height:1.5rem; border-radius:50%; object-fit:cover}
+    
+    /* Enhanced Dashboard Styles */
+    .stat-card { transition: all 0.3s ease; }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .progress-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+    
+    /* Enhanced Analytics Styles */
+    .filter-bar { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 0.75rem; }
+    .filter-pill { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+    .filter-pill.active { background: rgba(99,102,241,0.2); color: #c7d2fe; }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 0.75rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .data-table td { padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover { background: rgba(255,255,255,0.03); }
+    
+    /* Enhanced Share & Security Styles */
+    .security-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.6rem; border-radius: 20px; font-size: 0.75rem; background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+    .share-option { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem; transition: all 0.2s; cursor: pointer; }
+    .share-option:hover { border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.05); }
+    .share-option.selected { border-color: rgba(99,102,241,0.6); background: rgba(99,102,241,0.1); }
+    .permission-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; border-radius: 8px; background: rgba(255,255,255,0.03); margin-bottom: 0.5rem; }
+    
+    /* Enhanced Builder Styles */
+    .builder-container { display: flex; gap: 1.5rem; height: calc(100vh - 200px); }
+    .components-panel { width: 280px; flex-shrink: 0; }
+    .canvas-panel { flex: 1; min-height: 500px; }
+    .component-item { padding: 0.75rem; background: rgba(255,255,255,0.05); border-radius: 0.5rem; margin-bottom: 0.75rem; cursor: grab; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.1); }
+    .component-item:hover { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); }
+    .component-item:active { cursor: grabbing; }
+    .canvas-area { min-height: 400px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 1.5rem; }
+    .canvas-item { background: rgba(17,24,39,0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; position: relative; transition: all 0.2s; }
+    .canvas-item:hover { border-color: rgba(99,102,241,0.4); }
+    .canvas-item.selected { border-color: rgba(99,102,241,0.8); box-shadow: 0 0 0 2px rgba(99,102,241,0.3); }
+    .canvas-item .item-controls { position: absolute; top: 0.5rem; right: 0.5rem; display: flex; gap: 0.5rem; opacity: 0; transition: opacity 0.2s; }
+    .canvas-item:hover .item-controls { opacity: 1; }
+    .canvas-item .control-btn { width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); cursor: pointer; }
+    .canvas-item .control-btn:hover { background: rgba(255,255,255,0.2); }
+    .drop-zone { border: 2px dashed rgba(99,102,241,0.5); background: rgba(99,102,241,0.05); border-radius: 0.5rem; padding: 1.5rem; text-align: center; margin-bottom: 1rem; transition: all 0.3s; }
+    .drop-zone.active { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.8); }
+    .question-preview { padding: 0.75rem; border-left: 3px solid rgba(99,102,241,0.5); background: rgba(255,255,255,0.03); }
+    .question-preview .question-text { font-weight: 500; margin-bottom: 0.5rem; }
+    .question-preview .question-type { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+    .option-list { margin-top: 0.75rem; }
+    .option-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .rating-container { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    .rating-star { color: rgba(255,255,255,0.3); cursor: pointer; transition: color 0.2s; }
+    .rating-star.active { color: #fbbf24; }
+    .scale-container { display: flex; justify-content: space-between; margin-top: 0.5rem; }
+    .scale-point { text-align: center; width: 40px; }
+    .scale-point input { margin: 0 auto; display: block; }
+    .scale-label { font-size: 0.75rem; margin-top: 0.25rem; }
+    
+    /* Audience Management Styles */
+    .audience-group { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+    .audience-group-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .contact-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; background: rgba(255,255,255,0.03); margin-bottom: 0.5rem; }
+    .contact-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(99,102,241,0.2); display: flex; align-items: center; justify-content: center; }
+    
+    /* Settings & Security Styles */
+    .security-level { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); margin-bottom: 1rem; }
+    .security-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(34,197,94,0.2); display: flex; align-items: center; justify-content: center; }
+    .audit-log-item { padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.03); margin-bottom: 0.75rem; border-left: 3px solid transparent; }
+    .audit-log-item.success { border-left-color: rgba(34,197,94,0.5); }
+    .audit-log-item.warning { border-left-color: rgba(245,158,11,0.5); }
+    .audit-log-item.error { border-left-color: rgba(239,68,68,0.5); }
+    
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255,255,255,0.1);
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: #6366f1;
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      .builder-container { flex-direction: column; height: auto; }
+      .components-panel { width: 100%; margin-bottom: 1.5rem; }
+      .filter-bar { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top gradient sheen -->
+  <div class="pointer-events-none fixed inset-x-0 -top-24 h-48 bg-gradient-to-b from-primary-500/20 to-transparent blur-3xl"></div>
+
+  <!-- AUTH -->
+  <section id="auth" class="min-h-screen grid place-items-center p-6">
+    <div class="auth card w-full max-w-lg p-8 animate-fadeup shadow-glow">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 grid place-items-center mb-5 animate-float">
+        <i class="fa-solid fa-link text-white"></i>
+      </div>
+      <h1 class="text-2xl font-semibold">Connect to SurveyCraft Pro</h1>
+      <p class="text-ink-400 mt-1">Sign in to continue.</p>
+
+      <div class="mt-6 grid grid-cols-2 gap-2 bg-white/5 p-1 rounded-xl">
+        <button id="tab-login" class="tab btn-ghost py-2 rounded-lg data-[active=true]:bg-primary-500/20" data-active="true">Login</button>
+        <button id="tab-signup" class="tab btn-ghost py-2 rounded-lg">Sign Up</button>
+      </div>
+
+      <!-- Login -->
+      <form id="form-login" class="mt-6 space-y-4" autocomplete="on">
+        <label class="block">
+          <span class="block text-sm mb-1">Email</span>
+          <input type="email" name="email" class="field w-full" placeholder="you@company.com" required />
+        </label>
+        <label class="block">
+          <span class="block text-sm mb-1">Password</span>
+          <input type="password" name="password" class="field w-full" placeholder="••••••••" required />
+        </label>
+        <div class="flex items-center justify-between text-sm">
+          <label class="inline-flex items-center gap-2 select-none">
+            <input type="checkbox" name="remember" class="accent-primary-500" />
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="text-primary-300 hover:text-primary-200">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-full" id="btn-login">
+          <span class="inline-flex items-center gap-2"><i class="fa-solid fa-right-to-bracket"></i> Sign In</span>
+        </button>
+        <p id="login-error" class="hidden text-red-400 text-sm" role="alert">Authentication failed. Check your credentials.</p>
+      </form>
+
+      <!-- Signup -->
+      <form id="form-signup" class="mt-6 space-y-4 hidden" autocomplete="on">
+        <label class="block">
+          <span class="block text-sm mb-1">Full name</span>
+          <input type="text" name="name" class="field w-full" placeholder="Your name" required />
+        </label>
+        <label class="block">
+          <span class="block text-sm mb-1">Email</span>
+          <input type="email" name="email" class="field w-full" placeholder="you@company.com" required />
+        </label>
+        <label class="block">
+          <span class="block text-sm mb-1">Password</span>
+          <input type="password" name="password" class="field w-full" placeholder="Create a password" required />
+        </label>
+        <label class="inline-flex items-center gap-2 text-sm">
+          <input type="checkbox" name="terms" required />
+          <span>I agree to the terms</span>
+        </label>
+        <button type="submit" class="btn btn-primary w-full" id="btn-signup">
+          <span class="inline-flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Create Account</span>
+        </button>
+        <p id="signup-error" class="hidden text-red-400 text-sm" role="alert">Please verify your details.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- APP SHELL -->
+  <section id="app" class="hidden h-screen">
+    <div class="h-full flex">
+      <!-- Sidebar -->
+      <aside class="glass w-72 p-5 hidden md:block">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 grid place-items-center">
+            <i class="fa-solid fa-link text-white"></i>
+          </div>
+          <div>
+            <h2 class="font-semibold">SurveyCraft Pro</h2>
+            <p class="text-xs text-ink-400">Connect</p>
+          </div>
+        </div>
+        <nav class="space-y-1">
+          <a href="#" data-route="dashboard" class="nav-item active"><i class="fa-solid fa-gauge-high w-5 text-primary-300"></i><span>Dashboard</span></a>
+          <a href="#" data-route="surveys" class="nav-item"><i class="fa-solid fa-square-poll-vertical w-5"></i><span>Surveys</span></a>
+          <a href="#" data-route="share" class="nav-item"><i class="fa-solid fa-share-nodes w-5"></i><span>Share</span></a>
+          <a href="#" data-route="analytics" class="nav-item"><i class="fa-solid fa-chart-simple w-5"></i><span>Analytics</span></a>
+          <a href="#" data-route="audience" class="nav-item"><i class="fa-solid fa-users w-5"></i><span>Audience</span></a>
+          <a href="#" data-route="settings" class="nav-item"><i class="fa-solid fa-gear w-5"></i><span>Settings</span></a>
+        </nav>
+        <div class="mt-10 pt-6 border-t border-white/10">
+          <button id="btn-logout" class="btn btn-ghost w-full"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-6">
+          <div>
+            <h1 class="text-xl font-semibold" id="route-title">Overview</h1>
+            <p class="text-ink-400 text-sm" id="route-description">Bring your data — we keep the UI clean.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <!-- Language Selector -->
+            <div class="relative" id="language-selector">
+              <button class="btn btn-ghost flex items-center gap-2">
+                <span class="fi fi-us rounded-sm" id="current-flag"></span>
+                <span id="current-lang">English</span>
+                <i class="fa-solid fa-chevron-down text-xs"></i>
+              </button>
+              <div class="absolute top-full right-0 mt-2 w-48 card p-2 hidden z-10" id="language-dropdown">
+                <div class="text-xs text-ink-400 px-2 py-1">Select Language</div>
+                <div class="divide-y divide-white/5">
+                  <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/5 flex items-center gap-2 language-option" data-lang="en">
+                    <span class="fi fi-us rounded-sm"></span> English
+                  </button>
+                  <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/5 flex items-center gap-2 language-option" data-lang="es">
+                    <span class="fi fi-es rounded-sm"></span> Español
+                  </button>
+                  <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/5 flex items-center gap-2 language-option" data-lang="fr">
+                    <span class="fi fi-fr rounded-sm"></span> Français
+                  </button>
+                  <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/5 flex items-center gap-2 language-option" data-lang="de">
+                    <span class="fi fi-de rounded-sm"></span> Deutsch
+                  </button>
+                  <button class="w-full text-left px-3 py-2 rounded-lg hover:bg-white/5 flex items-center gap-2 language-option" data-lang="zh">
+                    <span class="fi fi-cn rounded-sm"></span> 中文
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"></i>
+              <input id="global-search" class="field pl-10 w-64" placeholder="Search" />
+            </div>
+            <div class="w-10 h-10 rounded-full bg-white/10 grid place-items-center">
+              <i class="fa-solid fa-user text-ink-300"></i>
+              <span class="sr-only">Profile</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Route: Dashboard -->
+        <section id="route-dashboard" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- KPI cards -->
+            <div class="card metric p-5 animate-fadeup stat-card">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-ink-400 text-sm">Surveys</div>
+                <i class="fa-solid fa-square-poll-vertical text-primary-400"></i>
+              </div>
+              <div class="kpi text-2xl font-semibold mt-1" id="kpi-surveys">--</div>
+              <div class="flex items-center gap-2 mt-2 text-xs text-ink-400">
+                <i class="fa-solid fa-arrow-up text-green-400"></i>
+                <span>+12% from last week</span>
+              </div>
+            </div>
+            
+            <div class="card metric p-5 animate-fadeup stat-card" style="animation-delay:.05s">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-ink-400 text-sm">Responses</div>
+                <i class="fa-solid fa-reply text-primary-400"></i>
+              </div>
+              <div class="kpi text-2xl font-semibold mt-1" id="kpi-responses">--</div>
+              <div class="flex items-center gap-2 mt-2 text-xs text-ink-400">
+                <i class="fa-solid fa-arrow-up text-green-400"></i>
+                <span>+24% from last week</span>
+              </div>
+            </div>
+            
+            <div class="card metric p-5 animate-fadeup stat-card" style="animation-delay:.1s">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-ink-400 text-sm">Completion Rate</div>
+                <i class="fa-solid fa-percent text-primary-400"></i>
+              </div>
+              <div class="kpi text-2xl font-semibold mt-1" id="kpi-completion">--</div>
+              <div class="progress-bar mt-2">
+                <div class="progress-fill" style="width: 0%" id="completion-progress"></div>
+              </div>
+            </div>
+            
+            <div class="card metric p-5 animate-fadeup stat-card" style="animation-delay:.15s">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-ink-400 text-sm">Active Now</div>
+                <i class="fa-solid fa-users text-primary-400"></i>
+              </div>
+              <div class="kpi text-2xl font-semibold mt-1" id="kpi-active">--</div>
+              <div class="flex items-center gap-2 mt-2 text-xs text-ink-400">
+                <i class="fa-solid fa-clock text-amber-400"></i>
+                <span>Real-time tracking</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="card p-6 lg:col-span-2">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold">Responses Over Time</h2>
+                <div class="flex gap-2">
+                  <button class="btn btn-ghost text-sm active" data-range="7d">7d</button>
+                  <button class="btn btn-ghost text-sm" data-range="30d">30d</button>
+                  <button class="btn btn-ghost text-sm" data-range="90d">90d</button>
+                  <button class="btn btn-ghost text-sm" data-range="custom">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="relative h-72">
+                <canvas id="chart-responses" aria-label="Responses chart"></canvas>
+                <div id="empty-responses" class="empty absolute inset-0 rounded-xl grid place-items-center text-ink-400 text-sm">
+                  <div class="text-center">
+                    <i class="fa-solid fa-chart-line text-3xl mb-3 opacity-50"></i>
+                    <p>No response data available</p>
+                    <p class="text-xs mt-2">Create and share surveys to collect responses</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card p-6">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold">Survey Status</h2>
+                <button class="btn btn-ghost text-sm">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+              </div>
+              <div class="relative h-72">
+                <canvas id="chart-status" aria-label="Status chart"></canvas>
+                <div id="empty-status" class="empty absolute inset-0 rounded-xl grid place-items-center text-ink-400 text-sm">
+                  <div class="text-center">
+                    <i class="fa-solid fa-chart-pie text-3xl mb-3 opacity-50"></i>
+                    <p>No survey data available</p>
+                    <p class="text-xs mt-2">Create surveys to see status distribution</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="card p-6">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-semibold">Recent Activity</h2>
+                <span class="badge" id="badge-activity">0 items</span>
+              </div>
+              <div id="activity" class="text-ink-400 text-sm">
+                <div class="empty rounded-xl p-6 text-center">
+                  <i class="fa-solid fa-bell text-3xl mb-3 opacity-50"></i>
+                  <p>No activity yet</p>
+                  <p class="text-xs mt-2">Your recent actions will appear here</p>
+                  </div>
+              </div>
+            </div>
+            
+            <div class="card p-6">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-semibold">Top Performing Surveys</h2>
+                <span class="badge" id="badge-top-surveys">0 items</span>
+              </div>
+              <div id="top-surveys" class="text-ink-400 text-sm">
+                <div class="empty rounded-xl p-6 text-center">
+                  <i class="fa-solid fa-trophy text-3xl mb-3 opacity-50"></i>
+                  <p>No survey data available</p>
+                  <p class="text-xs mt-2">Create and share surveys to see performance metrics</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Route: Surveys -->
+        <section id="route-surveys" class="hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-xl font-semibold">Surveys</h1>
+              <p class="text-ink-400 text-sm">Create and manage your surveys</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"></i>
+                <input class="field pl-10 w-64" placeholder="Search surveys..." />
+              </div>
+              <button id="btn-create" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Survey</button>
+            </div>
+          </div>
+          
+          <div class="filter-bar flex items-center gap-4 mb-6">
+            <span class="text-sm text-ink-400">Filter by:</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="filter-pill active">All</div>
+              <div class="filter-pill">Active</div>
+              <div class="filter-pill">Draft</div>
+              <div class="filter-pill">Closed</div>
+              <div class="filter-pill">Archived</div>
+            </div>
+          </div>
+          
+          <div id="surveys-list" class="empty rounded-xl p-6 text-ink-400 text-center">
+            <i class="fa-solid fa-square-poll-vertical text-3xl mb-3 opacity-50"></i>
+            <p>No surveys yet</p>
+            <p class="text-sm mt-2">Get started by creating your first survey</p>
+            <button class="btn btn-primary mt-4"><i class="fa-solid fa-plus"></i> Create Survey</button>
+          </div>
+        </section>
+
+        <!-- Route: Share -->
+        <section id="route-share" class="hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-xl font-semibold">Share Surveys</h1>
+              <p class="text-ink-400 text-sm">Distribute your surveys with advanced sharing options</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="btn btn-ghost"><i class="fa-solid fa-download"></i> Export</button>
+              <button class="btn btn-primary" id="generate-share-link"><i class="fa-solid fa-link"></i> Generate Link</button>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="share-option" data-option="link">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-500/20 grid place-items-center">
+                  <i class="fa-solid fa-link text-primary-400"></i>
+                </div>
+                <h3 class="font-medium">Survey Links</h3>
+              </div>
+              <p class="text-sm text-ink-400 mb-4">Create and manage shareable links for your surveys with customizable access controls</p>
+              <button class="btn btn-primary w-full">Manage Links</button>
+            </div>
+            
+            <div class="share-option" data-option="audience">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-500/20 grid place-items-center">
+                  <i class="fa-solid fa-user-group text-primary-400"></i>
+                </div>
+                <h3 class="font-medium">Audience Groups</h3>
+              </div>
+              <p class="text-sm text-ink-400 mb-4">Share with specific audience segments and manage distribution lists</p>
+              <button class="btn btn-primary w-full">Create Group</button>
+            </div>
+            
+            <div class="share-option" data-option="embed">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-500/20 grid place-items-center">
+                  <i class="fa-solid fa-code text-primary-400"></i>
+                </div>
+                <h3 class="font-medium">Embed on Website</h3>
+              </div>
+              <p class="text-sm text-ink-400 mb-4">Embed surveys directly on your website with customizable styling options</p>
+              <button class="btn btn-primary w-full">Get Embed Code</button>
+            </div>
+            
+            <div class="share-option" data-option="email">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-500/20 grid place-items-center">
+                  <i class="fa-solid fa-envelope text-primary-400"></i>
+                </div>
+                <h3 class="font-medium">Email Campaign</h3>
+              </div>
+              <p class="text-sm text-ink-400 mb-4">Send surveys via email with tracking and reminder capabilities</p>
+              <button class="btn btn-primary w-full">Create Campaign</button>
+            </div>
+          </div>
+          
+          <div class="card p-6 mb-6">
+            <h3 class="font-medium mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-security-400"></i>
+              Government Security Options
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="security-level">
+                <div class="security-icon">
+                  <i class="fa-solid fa-lock text-security-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">End-to-End Encryption</h4>
+                  <p class="text-sm text-ink-400">Military-grade encryption for all data in transit and at rest</p>
+                </div>
+              </div>
+              
+              <div class="security-level">
+                <div class="security-icon">
+                  <i class="fa-solid fa-user-shield text-security-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">Access Controls</h4>
+                  <p class="text-sm text-ink-400">Role-based access control with multi-factor authentication</p>
+                </div>
+              </div>
+              
+              <div class="security-level">
+                <div class="security-icon">
+                  <i class="fa-solid fa-file-shield text-security-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">Data Sovereignty</h4>
+                  <p class="text-sm text-ink-400">Choose specific geographic regions for data storage</p>
+                </div>
+              </div>
+              
+              <div class="security-level">
+                <div class="security-icon">
+                  <i class="fa-solid fa-clock-rotate-left text-security-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">Audit Logging</h4>
+                  <p class="text-sm text-ink-400">Comprehensive audit trails for all system activities</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-white/10">
+              <button class="btn btn-security w-full" id="government-security-btn">
+                <i class="fa-solid fa-shield-halved"></i> Enable Government Security Mode
+              </button>
+            </div>
+          </div>
+          
+          <h3 class="font-medium mb-3">Recently Shared</h3>
+          <div class="empty rounded-xl p-6 text-ink-400 text-center">
+            <i class="fa-solid fa-share-nodes text-3xl mb-3 opacity-50"></i>
+            <p>No shared surveys yet</p>
+            <p class="text-sm mt-2">Share a survey to see it listed here</p>
+          </div>
+        </section>
+
+        <!-- Route: Drag & Drop Builder -->
+        <section id="route-builder" class="hidden">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="font-semibold">Survey Builder</h2>
+                <p class="text-ink-400 text-sm">Drag and drop components to create your survey</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="btn btn-ghost"><i class="fa-solid fa-eye"></i> Preview</button>
+                <button class="btn btn-primary" id="save-survey"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+              </div>
+            </div>
+            
+            <div class="builder-container">
+              <!-- Components Panel -->
+              <div class="components-panel card p-5">
+                <h3 class="font-medium mb-4">Survey Components</h3>
+                <p class="text-sm text-ink-400 mb-4">Drag components to the canvas</p>
+                
+                <div class="component-item" draggable="true" data-type="text">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-font text-primary-400"></i>
+                    <span>Text Question</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="multiple">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-list-ol text-primary-400"></i>
+                    <span>Multiple Choice</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="checkbox">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-square-check text-primary-400"></i>
+                    <span>Checkboxes</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="dropdown">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-caret-down text-primary-400"></i>
+                    <span>Dropdown</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="rating">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-star text-primary-400"></i>
+                    <span>Rating</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="date">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-calendar-days text-primary-400"></i>
+                    <span>Date Picker</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="scale">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-sliders text-primary-400"></i>
+                    <span>Linear Scale</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="file">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-file-arrow-up text-primary-400"></i>
+                    <span>File Upload</span>
+                  </div>
+                </div>
+                
+                <div class="component-item" draggable="true" data-type="section">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-grip-lines text-ink-400"></i>
+                    <i class="fa-solid fa-bars text-primary-400"></i>
+                    <span>Section Header</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Canvas Panel -->
+              <div class="canvas-panel card p-5">
+                <h3 class="font-medium mb-4">Survey Canvas</h3>
+                
+                <div class="canvas-area" id="survey-canvas">
+                  <div class="drop-zone" id="canvas-drop-zone">
+                    <i class="fa-solid fa-arrow-down text-2xl mb-2 text-primary-400"></i>
+                    <p class="text-sm">Drag components here to build your survey</p>
+                  </div>
+                  
+                  <!-- Example questions (would be dynamically generated) -->
+                  <div class="canvas-item" data-type="text" data-id="sample1">
+                    <div class="item-controls">
+                      <div class="control-btn" onclick="editQuestion('sample1')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                      <div class="control-btn" onclick="deleteQuestion('sample1')"><i class="fa-solid fa-trash fa-xs"></i></div>
+                    </div>
+                    <div class="question-preview">
+                      <div class="question-text">What is your name?</div>
+                      <div class="question-type">Text Question</div>
+                      <input type="text" class="field w-full mt-2" placeholder="Type your answer here" disabled>
+                    </div>
+                  </div>
+                  
+                  <div class="canvas-item" data-type="multiple" data-id="sample2">
+                    <div class="item-controls">
+                      <div class="control-btn" onclick="editQuestion('sample2')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                      <div class="control-btn" onclick="deleteQuestion('sample2')"><i class="fa-solid fa-trash fa-xs"></i></div>
+                    </div>
+                    <div class="question-preview">
+                      <div class="question-text">Which option do you prefer?</div>
+                      <div class="question-type">Multiple Choice</div>
+                      <div class="space-y-2 mt-2">
+                        <div class="flex items-center gap-2">
+                          <input type="radio" disabled class="rounded-full">
+                          <label class="text-sm">Option 1</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <input type="radio" disabled class="rounded-full">
+                          <label class="text-sm">Option 2</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <input type="radio" disabled class="rounded-full">
+                          <label class="text-sm">Option 3</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Route: Analytics -->
+        <section id="route-analytics" class="hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-xl font-semibold">Analytics</h1>
+              <p class="text-ink-400 text-sm">Gain insights from your survey data</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"></i>
+                <input class="field pl-10 w-64" placeholder="Search analytics..." />
+              </div>
+              <button class="btn btn-primary"><i class="fa-solid fa-download"></i> Export Report</button>
+            </div>
+          </div>
+          
+          <div class="filter-bar flex items-center gap-4 mb-6">
+            <span class="text-sm text-ink-400">Time range:</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="filter-pill active">Last 7 days</div>
+              <div class="filter-pill">Last 30 days</div>
+              <div class="filter-pill">Last 90 days</div>
+              <div class="filter-pill">Custom range</div>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div class="card p-6">
+              <h3 class="font-medium mb-4">Response Rate</h3>
+              <div class="relative h-72">
+                <canvas id="chart-response-rate" aria-label="Response rate chart"></canvas>
+                <div class="empty absolute inset-0 rounded-xl grid place-items-center text-ink-400 text-sm">
+                  <div class="text-center">
+                    <i class="fa-solid fa-chart-line text-3xl mb-3 opacity-50"></i>
+                    <p>No response data available</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card p-6">
+              <h3 class="font-medium mb-4">Completion by Device</h3>
+              <div class="relative h-72">
+                <canvas id="chart-device-breakdown" aria-label="Device breakdown chart"></canvas>
+                <div class="empty absolute inset-0 rounded-xl grid place-items-center text-ink-400 text-sm">
+                  <div class="text-center">
+                    <i class="fa-solid fa-mobile-screen text-3xl mb-3 opacity-50"></i>
+                    <p>No device data available</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card p-6">
+            <h3 class="font-medium mb-4">Detailed Responses</h3>
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Survey</th>
+                    <th>Responses</th>
+                    <th>Completion Rate</th>
+                    <th>Avg. Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="text-center py-8 text-ink-400">
+                      <i class="fa-solid fa-table text-3xl mb-3 opacity-50"></i>
+                      <p>No response data available</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Route: Audience -->
+        <section id="route-audience" class="hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-xl font-semibold">Audience</h1>
+              <p class="text-ink-400 text-sm">Manage your survey participants</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"></i>
+                <input class="field pl-10 w-64" placeholder="Search audience..." />
+              </div>
+              <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Contact</button>
+            </div>
+          </div>
+          
+          <div class="filter-bar flex items-center gap-4 mb-6">
+            <span class="text-sm text-ink-400">Filter by:</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="filter-pill active">All Contacts</div>
+              <div class="filter-pill">Recent</div>
+              <div class="filter-pill">By Group</div>
+              <div class="filter-pill">Unsubscribed</div>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div class="card p-6">
+              <h3 class="font-medium mb-4">Audience Overview</h3>
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-ink-400">Total Contacts</span>
+                  <span class="font-semibold">0</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-ink-400">Active</span>
+                  <span class="font-semibold">0</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-ink-400">Unsubscribed</span>
+                  <span class="font-semibold">0</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-ink-400">Groups</span>
+                  <span class="font-semibold">0</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card p-6 lg:col-span-2">
+              <h3 class="font-medium mb-4">Contact Growth</h3>
+              <div class="relative h-64">
+                <canvas id="chart-audience-growth" aria-label="Audience growth chart"></canvas>
+                <div class="empty absolute inset-0 rounded-xl grid place-items-center text-ink-400 text-sm">
+                  <div class="text-center">
+                    <i class="fa-solid fa-user-group text-3xl mb-3 opacity-50"></i>
+                    <p>No audience data available</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card p-6">
+            <h3 class="font-medium mb-4">Contact List</h3>
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Group</th>
+                    <th>Status</th>
+                    <th>Last Activity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="text-center py-8 text-ink-400">
+                      <i class="fa-solid fa-address-book text-3xl mb-3 opacity-50"></i>
+                      <p>No contacts yet</p>
+                      <p class="text-sm mt-2">Add contacts to build your audience</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Route: Settings -->
+        <section id="route-settings" class="hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-xl font-semibold">Settings</h1>
+              <p class="text-ink-400 text-sm">Configure your account and preferences</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="card p-6">
+              <h3 class="font-medium mb-4">Account Settings</h3>
+              <div class="space-y-4">
+                <label class="block">
+                  <span class="block text-sm mb-1">Full Name</span>
+                  <input type="text" class="field w-full" value="Your Name" />
+                </label>
+                <label class="block">
+                  <span class="block text-sm mb-1">Email Address</span>
+                  <input type="email" class="field w-full" value="you@company.com" />
+                </label>
+                <label class="block">
+                  <span class="block text-sm mb-1">Time Zone</span>
+                  <select class="field w-full">
+                    <option>(UTC-08:00) Pacific Time</option>
+                    <option>(UTC-07:00) Mountain Time</option>
+                    <option>(UTC-06:00) Central Time</option>
+                    <option>(UTC-05:00) Eastern Time</option>
+                  </select>
+                </label>
+                <button class="btn btn-primary w-full">Save Changes</button>
+              </div>
+            </div>
+            
+            <div class="card p-6">
+              <h3 class="font-medium mb-4">Interface Preferences</h3>
+              <div class="space-y-4">
+                <label class="block">
+                  <span class="block text-sm mb-1">Interface Language</span>
+                  <select id="setting-lang" class="field w-full">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="zh">中文</option>
+                  </select>
+                </label>
+                <label class="inline-flex items-center gap-2 justify-between w-full">
+                  <span class="text-sm">Compact Mode</span>
+                  <input id="setting-compact" type="checkbox" class="toggle-switch" />
+                </label>
+                <label class="inline-flex items-center gap-2 justify-between w-full">
+                  <span class="text-sm">Dark Mode</span>
+                  <input type="checkbox" class="toggle-switch" checked />
+                </label>
+                <label class="inline-flex items-center gap-2 justify-between w-full">
+                  <span class="text-sm">Email Notifications</span>
+                  <input type="checkbox" class="toggle-switch" checked />
+                </label>
+              </div>
+            </div>
+            
+            <div class="card p-6">
+              <h3 class="font-medium mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-security-400"></i>
+                Security Settings
+              </h3>
+              <div class="space-y-4">
+                <div class="security-badge">
+                  <i class="fa-solid fa-lock"></i>
+                  <span>Standard Security</span>
+                </div>
+                
+                <div class="space-y-3">
+                  <h4 class="font-medium text-sm">Two-Factor Authentication</h4>
+                  <div class="flex items-center justify-between">
+                    <span class="text-ink-400 text-sm">2FA Status</span>
+                    <span class="badge">Disabled</span>
+                  </div>
+                  <button class="btn btn-security w-full">
+                    <i class="fa-solid fa-shield-halved"></i> Enable 2FA
+                  </button>
+                </div>
+                
+                <div class="space-y-3 pt-4 border-t border-white/10">
+                  <h4 class="font-medium text-sm">Government Security Mode</h4>
+                  <p class="text-ink-400 text-xs">Enable for enhanced security compliance with government standards</p>
+                  <button class="btn btn-security w-full" id="government-security-btn-2">
+                    <i class="fa-solid fa-building-shield"></i> Enable Government Mode
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card p-6 mt-6">
+            <h3 class="font-medium mb-4">Audit Log</h3>
+            <div class="space-y-3">
+              <div class="audit-log-item success">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-medium">User login</div>
+                    <div class="text-ink-400 text-sm">Successful login from Chrome on Windows</div>
+                  </div>
+                  <div class="text-ink-400 text-sm">2 minutes ago</div>
+                </div>
+              </div>
+              
+              <div class="audit-log-item">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-medium">Settings updated</div>
+                    <div class="text-ink-400 text-sm">Interface preferences modified</div>
+                  </div>
+                  <div class="text-ink-400 text-sm">15 minutes ago</div>
+                </div>
+              </div>
+              
+              <div class="audit-log-item warning">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-medium">Failed login attempt</div>
+                    <div class="text-ink-400 text-sm">Invalid credentials from Firefox on MacOS</div>
+                  </div>
+                  <div class="text-ink-400 text-sm">1 hour ago</div>
+                </div>
+              </div>
+            </div>
+            
+            <button class="btn btn-ghost w-full mt-4">View Full Audit Log</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </section>
+
+  <!-- Create Survey Modal -->
+  <div id="create-survey-modal" class="modal hidden">
+    <div class="modal-content card p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold">Create New Survey</h2>
+        <button class="btn btn-ghost p-2" id="close-create-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="mb-4">
+        <label class="block mb-2">
+          <span class="block text-sm mb-1">Survey Title</span>
+          <input type="text" id="survey-title" class="field w-full" placeholder="Enter survey title" />
+        </label>
+      </div>
+      
+      <h3 class="font-medium mb-3">Choose Creation Method</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="survey-option card p-5 cursor-pointer text-center hover:border-primary-400" data-method="blank">
+          <div class="w-12 h-12 rounded-full bg-primary-500/20 grid place-items-center mx-auto mb-3">
+            <i class="fa-solid fa-file text-primary-400"></i>
+          </div>
+          <h4 class="font-medium mb-1">Start from Scratch</h4>
+          <p class="text-xs text-ink-400">Create a custom survey with your own questions</p>
+        </div>
+        
+        <div class="survey-option card p-5 cursor-pointer text-center hover:border-primary-400" data-method="template">
+          <div class="w-12 h-12 rounded-full bg-primary-500/20 grid place-items-center mx-auto mb-3">
+            <i class="fa-solid fa-grid-2 text-primary-400"></i>
+          </div>
+          <h4 class="font-medium mb-1">Use a Template</h4>
+          <p class="text-xs text-ink-400">Choose from professionally designed templates</p>
+        </div>
+        
+        <div class="survey-option card p-5 cursor-pointer text-center hover:border-primary-400" data-method="ai">
+          <div class="w-12 h-12 rounded-full bg-primary-500/20 grid place-items-center mx-auto mb-3">
+            <i class="fa-solid fa-wand-magic-sparkles text-primary-400"></i>
+          </div>
+          <h4 class="font-medium mb-1">AI Assistant</h4>
+          <p class="text-xs text-ink-400">Let AI generate a survey based on your topic</p>
+        </div>
+        
+        <div class="survey-option card p-5 cursor-pointer text-center hover:border-primary-400" data-method="import">
+          <div class="w-12 h-12 rounded-full bg-primary-500/20 grid place-items-center mx-auto mb-3">
+            <i class="fa-solid fa-file-import text-primary-400"></i>
+          </div>
+          <h4 class="font-medium mb-1">Import Questions</h4>
+          <p class="text-xs text-ink-400">Import from CSV, Word, or other formats</p>
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-3">
+        <button class="btn btn-ghost" id="cancel-create">Cancel</button>
+        <button class="btn btn-primary" id="confirm-create" disabled>Create Survey</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Survey Modal -->
+  <div id="share-survey-modal" class="modal hidden">
+    <div class="modal-content card p-6 max-w-md">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold">Share Survey</h2>
+        <button class="btn btn-ghost p-2" id="close-share-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="mb-4">
+        <label class="block mb-2">
+          <span class="block text-sm mb-1">Survey Link</span>
+          <div class="flex gap-2">
+            <input type="text" id="survey-link" class="field w-full" readonly value="https://surveycraft.pro/s/abc123" />
+            <button class="btn btn-ghost flex-shrink-0" id="copy-link">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+            </div>
+        </label>
+      </div>
+      
+      <div class="mb-4">
+        <label class="block mb-2">
+          <span class="block text-sm mb-1">Link Expiration</span>
+          <select class="field w-full">
+            <option>No expiration</option>
+            <option>1 day</option>
+            <option>7 days</option>
+            <option>30 days</option>
+            <option>Custom date</option>
+          </select>
+        </label>
+      </div>
+      
+      <div class="mb-4">
+        <label class="block mb-2">
+          <span class="block text-sm mb-1">Response Limit</span>
+          <input type="number" class="field w-full" placeholder="No limit" />
+        </label>
+      </div>
+      
+      <h3 class="font-medium mb-3">Share via</h3>
+      
+      <div class="grid grid-cols-4 gap-3 mb-6">
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-brands fa-whatsapp text-green-400 text-xl mb-1"></i>
+          <span class="text-xs">WhatsApp</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-solid fa-envelope text-ink-300 text-xl mb-1"></i>
+          <span class="text-xs">Email</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-brands fa-facebook-messenger text-blue-400 text-xl mb-1"></i>
+          <span class="text-xs">Messenger</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-brands fa-slack text-orange-400 text-xl mb-1"></i>
+          <span class="text-xs">Slack</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-brands fa-linkedin text-blue-500 text-xl mb-1"></i>
+          <span class="text-xs">LinkedIn</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-brands fa-telegram text-blue-300 text-xl mb-1"></i>
+          <span class="text-xs">Telegram</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-brands fa-discord text-indigo-400 text-xl mb-1"></i>
+          <span class="text-xs">Discord</span>
+        </button>
+        
+        <button class="btn btn-ghost flex flex-col items-center py-3">
+          <i class="fa-solid fa-qrcode text-ink-300 text-xl mb-1"></i>
+          <span class="text-xs">QR Code</span>
+        </button>
+      </div>
+      
+      <h3 class="font-medium mb-3">Embed on Website</h3>
+      
+      <div class="mb-4">
+        <div class="flex gap-2">
+          <input type="text" id="embed-code" class="field w-full" readonly value='<iframe src="https://surveycraft.pro/embed/abc123" width="100%" height="500"></iframe>' />
+          <button class="btn btn-ghost flex-shrink-0" id="copy-embed">
+            <i class="fa-regular fa-copy"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="flex justify-end">
+        <button class="btn btn-primary" id="done-share">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Government Security Modal -->
+  <div id="government-security-modal" class="modal hidden">
+    <div class="modal-content card p-6 max-w-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-building-shield text-security-400"></i>
+          Government Security Settings
+        </h2>
+        <button class="btn btn-ghost p-2" id="close-security-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="space-y-6">
+        <div class="security-level">
+          <div class="security-icon">
+            <i class="fa-solid fa-database text-security-400"></i>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium">Data Sovereignty</h3>
+            <p class="text-sm text-ink-400 mb-3">Choose where your data is stored to comply with regional regulations</p>
+            <select class="field w-full">
+              <option>Global (Automatic)</option>
+              <option>United States</option>
+              <option>European Union</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Custom region</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="security-level">
+          <div class="security-icon">
+            <i class="fa-solid fa-lock text-security-400"></i>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium">Encryption Level</h3>
+            <p class="text-sm text-ink-400 mb-3">Select the encryption standard for your data</p>
+            <select class="field w-full">
+              <option>Standard (AES-256)</option>
+              <option>Enhanced (FIPS 140-2 Compliant)</option>
+              <option>Government (FIPS 140-3 Compliant)</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="security-level">
+          <div class="security-icon">
+            <i class="fa-solid fa-user-shield text-security-400"></i>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium">Access Controls</h3>
+            <p class="text-sm text-ink-400 mb-3">Configure who can access your survey data</p>
+            <div class="space-y-3">
+              <label class="inline-flex items-center gap-2 justify-between w-full">
+                <span class="text-sm">Multi-factor Authentication Required</span>
+                <input type="checkbox" class="toggle-switch" />
+              </label>
+              <label class="inline-flex items-center gap-2 justify-between w-full">
+                <span class="text-sm">IP Address Restrictions</span>
+                <input type="checkbox" class="toggle-switch" />
+              </label>
+              <label class="inline-flex items-center gap-2 justify-between w-full">
+                <span class="text-sm">Time-based Access Controls</span>
+                <input type="checkbox" class="toggle-switch" />
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="security-level">
+          <div class="security-icon">
+            <i class="fa-solid fa-file-shield text-security-400"></i>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium">Data Retention</h3>
+            <p class="text-sm text-ink-400 mb-3">Set policies for automatic data deletion</p>
+            <select class="field w-full">
+              <option>No automatic deletion</option>
+              <option>30 days after survey completion</option>
+              <option>6 months after survey completion</option>
+              <option>1 year after survey completion</option>
+              <option>Custom period</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="security-level">
+          <div class="security-icon">
+            <i class="fa-solid fa-clock-rotate-left text-security-400"></i>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium">Audit Logging</h3>
+            <p class="text-sm text-ink-400 mb-3">Configure comprehensive audit trails</p>
+            <div class="space-y-3">
+              <label class="inline-flex items-center gap-2 justify-between w-full">
+                <span class="text-sm">Enable Detailed Audit Logs</span>
+                <input type="checkbox" class="toggle-switch" checked />
+              </label>
+              <label class="inline-flex items-center gap-2 justify-between w-full">
+                <span class="text-sm">Log Data Access Events</span>
+                <input type="checkbox" class="toggle-switch" checked />
+              </label>
+              <label class="inline-flex items-center gap-2 justify-between w-full">
+                <span class="text-sm">Log Configuration Changes</span>
+                <input type="checkbox" class="toggle-switch" checked />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-3 mt-6">
+        <button class="btn btn-ghost" id="cancel-security">Cancel</button>
+        <button class="btn btn-security" id="save-security">
+          <i class="fa-solid fa-shield-halved"></i> Apply Security Settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Question Modal -->
+  <div id="edit-question-modal" class="modal hidden">
+    <div class="modal-content card p-6 max-w-md">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold" id="edit-modal-title">Edit Question</h2>
+        <button class="btn btn-ghost p-2" id="close-edit-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="space-y-4">
+        <label class="block">
+          <span class="block text-sm mb-1">Question Text</span>
+          <input type="text" id="question-text" class="field w-full" placeholder="Enter your question" />
+        </label>
+        
+        <div id="question-options" class="hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="block text-sm">Options</span>
+            <button class="btn btn-ghost text-xs" id="add-option">
+              <i class="fa-solid fa-plus"></i> Add Option
+            </button>
+          </div>
+          <div id="options-container" class="space-y-2">
+            <!-- Options will be added here dynamically -->
+          </div>
+        </div>
+        
+        <div id="rating-options" class="hidden">
+          <label class="block">
+            <span class="block text-sm mb-1">Number of Stars</span>
+            <select id="rating-stars" class="field w-full">
+              <option value="5">5 Stars</option>
+              <option value="7">7 Stars</option>
+              <option value="10">10 Stars</option>
+            </select>
+          </label>
+        </div>
+        
+        <div id="scale-options" class="hidden grid grid-cols-2 gap-4">
+          <label class="block">
+            <span class="block text-sm mb-1">Minimum Value</span>
+            <input type="number" id="scale-min" class="field w-full" value="1" min="0" max="10" />
+          </label>
+          <label class="block">
+            <span class="block text-sm mb-1">Maximum Value</span>
+            <input type="number" id="scale-max" class="field w-full" value="5" min="2" max="10" />
+          </label>
+          <label class="block col-span-2">
+            <span class="block text-sm mb-1">Minimum Label (optional)</span>
+            <input type="text" id="scale-min-label" class="field w-full" placeholder="e.g., Poor" />
+          </label>
+          <label class="block col-span-2">
+            <span class="block text-sm mb-1">Maximum Label (optional)</span>
+            <input type="text" id="scale-max-label" class="field w-full" placeholder="e.g., Excellent" />
+          </label>
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-3 mt-6">
+        <button class="btn btn-ghost" id="cancel-edit">Cancel</button>
+        <button class="btn btn-primary" id="save-question">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-xs text-ink-500 py-6">© <span id="year"></span> SurveyCraft Pro</footer>
+
+  <!-- Flag Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
+
+  <script>
+    // --- Enhanced app state & functionality ---
+    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+    const state = {
+      authed: false,
+      metrics: { surveys: null, responses: null, completion: null, active: null },
+      activity: [],
+      charts: { responses: null, status: null },
+      language: 'en',
+      currentEditingQuestion: null,
+      surveys: [],
+      translations: {
+        en: {
+          dashboard: "Dashboard",
+          surveys: "Surveys",
+          analytics: "Analytics",
+          audience: "Audience",
+          settings: "Settings",
+          overview: "Overview",
+          signIn: "Sign In",
+          signUp: "Sign Up",
+          createAccount: "Create Account",
+          rememberMe: "Remember me",
+          forgotPassword: "Forgot password?",
+          agreeToTerms: "I agree to the terms",
+          logout: "Logout",
+          newSurvey: "New Survey",
+          noSurveys: "No surveys yet.",
+          noActivity: "No activity yet.",
+          interfaceLanguage: "Interface language",
+          compactMode: "Compact mode"
+        },
+        es: {
+          dashboard: "Panel",
+          surveys: "Encuestas",
+          analytics: "Analíticas",
+          audience: "Audiencia",
+          settings: "Configuración",
+          overview: "Resumen",
+          signIn: "Iniciar Sesión",
+          signUp: "Registrarse",
+          createAccount: "Crear Cuenta",
+          rememberMe: "Recordarme",
+          forgotPassword: "¿Olvidaste tu contraseña?",
+          agreeToTerms: "Acepto los términos",
+          logout: "Cerrar Sesión",
+          newSurvey: "Nueva Encuesta",
+          noSurveys: "Aún no hay encuestas.",
+          noActivity: "No hay actividad aún.",
+          interfaceLanguage: "Idioma de interfaz",
+          compactMode: "Modo compacto"
+        },
+        fr: {
+          dashboard: "Tableau de bord",
+          surveys: "Sondages",
+          analytics: "Analytiques",
+          audience: "Audience",
+          settings: "Paramètres",
+          overview: "Aperçu",
+          signIn: "Se Connecter",
+          signUp: "S'inscrire",
+          createAccount: "Créer un Compte",
+          rememberMe: "Se souvenir de moi",
+          forgotPassword: "Mot de passe oublié?",
+          agreeToTerms: "J'accepte les conditions",
+          logout: "Se Déconnecter",
+          newSurvey: "Nouveau Sondage",
+          noSurveys: "Pas encore de sondages.",
+          noActivity: "Aucune activité pour le moment.",
+          interfaceLanguage: "Langue de l'interface",
+          compactMode: "Mode compact"
+        },
+        de: {
+          dashboard: "Dashboard",
+          surveys: "Umfragen",
+          analytics: "Analysen",
+          audience: "Publikum",
+          settings: "Einstellungen",
+          overview: "Übersicht",
+          signIn: "Anmelden",
+          signUp: "Registrieren",
+          createAccount: "Konto Erstellen",
+          rememberMe: "Angemeldet bleiben",
+          forgotPassword: "Passwort vergessen?",
+          agreeToTerms: "Ich akceptiere die Bedingungen",
+          logout: "Abmelden",
+          newSurvey: "Neue Umfrage",
+          noSurveys: "Noch keine Umfragen.",
+          noActivity: "Noch keine Aktivitäten.",
+          interfaceLanguage: "Schnittstellensprache",
+          compactMode: "Kompakter Modus"
+        },
+        zh: {
+          dashboard: "仪表板",
+          surveys: "调查",
+          analytics: "分析",
+          audience: "受众",
+          settings: "设置",
+          overview: "概览",
+          signIn: "登录",
+          signUp: "注册",
+          createAccount: "创建账户",
+          rememberMe: "记住我",
+          forgotPassword: "忘记密码?",
+          agreeToTerms: "我同意条款",
+          logout: "退出登录",
+          newSurvey: "新建调查",
+          noSurveys: "尚无调查。",
+          noActivity: "尚无活动。",
+          interfaceLanguage: "界面语言",
+          compactMode: "紧凑模式"
+        }
+      }
+    };
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      // Year
+      $('#year').textContent = new Date().getFullYear();
+
+      // Check if user is already logged in
+      const savedUser = localStorage.getItem('surveycraft_user');
+      if (savedUser) {
+        state.authed = true;
+        enterApp();
+      }
+
+      // Tabs (Auth)
+      $('#tab-login').addEventListener('click', () => switchAuth('login'));
+      $('#tab-signup').addEventListener('click', () => switchAuth('signup'));
+      
+      // Auth handlers
+      $('#form-login').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const email = e.target.email.value.trim();
+        const pwd = e.target.password.value.trim();
+        
+        if(!email || !pwd){ 
+          show('#login-error');
+          return;
+        }
+        
+        // Check if user exists
+        const users = JSON.parse(localStorage.getItem('surveycraft_users') || '[]');
+        const user = users.find(u => u.email === email && u.password === pwd);
+        
+        if (!user) {
+          show('#login-error');
+          return;
+        }
+        
+        hide('#login-error');
+        state.authed = true;
+        
+        // Save user session
+        localStorage.setItem('surveycraft_user', JSON.stringify(user));
+        
+        enterApp();
+      });
+      
+      $('#form-signup').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const name = e.target.name.value.trim();
+        const email = e.target.email.value.trim();
+        const pwd = e.target.password.value.trim();
+        const terms = e.target.terms.checked;
+        
+        if(!name || !email || !pwd || !terms){ 
+          show('#signup-error');
+          return;
+        }
+        
+        // Check if user already exists
+        const users = JSON.parse(localStorage.getItem('surveycraft_users') || '[]');
+        if (users.some(u => u.email === email)) {
+          $('#signup-error').textContent = 'User with this email already exists';
+          show('#signup-error');
+          return;
+        }
+        
+        hide('#signup-error');
+        
+        // Create new user
+        const newUser = { name, email, password: pwd };
+        users.push(newUser);
+        localStorage.setItem('surveycraft_users', JSON.stringify(users));
+        localStorage.setItem('surveycraft_user', JSON.stringify(newUser));
+        
+        state.authed = true;
+        enterApp();
+      });
+
+      // Routing
+      $$('#app [data-route]').forEach(a=>a.addEventListener('click', (ev)=>{
+        ev.preventDefault(); 
+        routeTo(a.dataset.route);
+      }));
+
+      // Logout
+      $('#btn-logout').addEventListener('click', ()=>{
+        state.authed=false; 
+        localStorage.removeItem('surveycraft_user');
+        hide('#app'); 
+        show('#auth'); 
+      });
+
+      // Create Survey Modal
+      $('#btn-create').addEventListener('click', () => {
+        show('#create-survey-modal');
+      });
+
+      $('#close-create-modal').addEventListener('click', () => {
+        hide('#create-survey-modal');
+      });
+
+      $('#cancel-create').addEventListener('click', () => {
+        hide('#create-survey-modal');
+      });
+
+      // Survey creation method selection
+      $$('.survey-option').forEach(option => {
+        option.addEventListener('click', () => {
+          $$('.survey-option').forEach(opt => opt.classList.remove('border-primary-400', 'bg-primary-500/10'));
+          option.classList.add('border-primary-400', 'bg-primary-500/10');
+          $('#confirm-create').disabled = false;
+        });
+      });
+
+      $('#confirm-create').addEventListener('click', () => {
+        const title = $('#survey-title').value.trim();
+        const selectedMethod = $('.survey-option.border-primary-400')?.dataset.method;
+        
+        if (!title) {
+          alert('Please enter a survey title');
+          return;
+        }
+        
+        if (!selectedMethod) {
+          alert('Please select a creation method');
+          return;
+        }
+        
+        // Create new survey
+        const newSurvey = {
+          id: Date.now().toString(),
+          title,
+          method: selectedMethod,
+          createdAt: new Date().toISOString(),
+          status: 'draft',
+          questions: []
+        };
+        
+        // Save to localStorage
+        const surveys = JSON.parse(localStorage.getItem('surveycraft_surveys') || '[]');
+        surveys.push(newSurvey);
+        localStorage.setItem('surveycraft_surveys', JSON.stringify(surveys));
+        
+        // Update state
+        state.surveys = surveys;
+        
+        // For the "Start from Scratch" method, show the builder
+        if (selectedMethod === 'blank') {
+          hide('#create-survey-modal');
+          routeTo('builder');
+        } else {
+          // For other methods, show share modal
+          hide('#create-survey-modal');
+          show('#share-survey-modal');
+        }
+      });
+
+      // Share Survey Modal
+      $('#generate-share-link').addEventListener('click', () => {
+        show('#share-survey-modal');
+      });
+
+      $('#close-share-modal').addEventListener('click', () => {
+        hide('#share-survey-modal');
+      });
+
+      $('#done-share').addEventListener('click', () => {
+        hide('#share-survey-modal');
+      });
+
+      // Copy link functionality
+      $('#copy-link').addEventListener('click', () => {
+        const linkInput = $('#survey-link');
+        linkInput.select();
+        document.execCommand('copy');
+        
+        // Show feedback
+        const originalHtml = $('#copy-link').innerHTML;
+        $('#copy-link').innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => {
+          $('#copy-link').innerHTML = originalHtml;
+        }, 2000);
+      });
+
+      $('#copy-embed').addEventListener('click', () => {
+        const embedInput = $('#embed-code');
+        embedInput.select();
+        document.execCommand('copy');
+        
+        // Show feedback
+        const originalHtml = $('#copy-embed').innerHTML;
+        $('#copy-embed').innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => {
+          $('#copy-embed').innerHTML = originalHtml;
+        }, 2000);
+      });
+
+      // Language Selector
+      $('#language-selector button').addEventListener('click', (e) => {
+        e.stopPropagation();
+        $('#language-dropdown').classList.toggle('hidden');
+      });
+
+      // Close language dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#language-selector')) {
+          $('#language-dropdown').classList.add('hidden');
+        }
+      });
+
+      // Language selection
+      $$('.language-option').forEach(option => {
+        option.addEventListener('click', () => {
+          const lang = option.dataset.lang;
+          setLanguage(lang);
+          $('#language-dropdown').classList.add('hidden');
+        });
+      });
+
+      // Settings language change
+      $('#setting-lang').addEventListener('change', (e) => {
+        setLanguage(e.target.value);
+      });
+
+      // Government Security Modal
+      $('#government-security-btn').addEventListener('click', () => {
+        show('#government-security-modal');
+      });
+
+      $('#government-security-btn-2').addEventListener('click', () => {
+        show('#government-security-modal');
+      });
+
+      $('#close-security-modal').addEventListener('click', () => {
+        hide('#government-security-modal');
+      });
+
+      $('#cancel-security').addEventListener('click', () => {
+        hide('#government-security-modal');
+      });
+
+      $('#save-security').addEventListener('click', () => {
+        alert('Government security settings applied successfully');
+        hide('#government-security-modal');
+      });
+
+      // Edit Question Modal
+      $('#close-edit-modal').addEventListener('click', () => {
+        hide('#edit-question-modal');
+      });
+      
+      $('#cancel-edit').addEventListener('click', () => {
+        hide('#edit-question-modal');
+      });
+      
+      $('#add-option').addEventListener('click', () => {
+        const optionId = Date.now();
+        const optionsContainer = $('#options-container');
+        const optionHTML = `
+          <div class="option-item" data-option-id="${optionId}">
+            <input type="text" class="field flex-1" placeholder="Option text" value="Option ${optionsContainer.children.length + 1}">
+            <button class="btn btn-ghost p-2" onclick="removeOption('${optionId}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+        optionsContainer.insertAdjacentHTML('beforeend', optionHTML);
+      });
+      
+      $('#save-question').addEventListener('click', () => {
+        const id = state.currentEditingQuestion;
+        const question = $(`[data-id="${id}"]`);
+        if (!question) return;
+        
+        const type = question.dataset.type;
+        const newText = $('#question-text').value;
+        
+        // Update question text
+        question.querySelector('.question-text').textContent = newText;
+        
+        // Update options for multiple choice questions
+        if (['multiple', 'checkbox', 'dropdown'].includes(type)) {
+          const optionsContainer = question.querySelector('.option-list') || document.createElement('div');
+          optionsContainer.className = 'option-list';
+          optionsContainer.innerHTML = '';
+          
+          const optionInputs = $$('#options-container input');
+          optionInputs.forEach(input => {
+            if (input.value.trim()) {
+              const optionItem = document.createElement('div');
+              optionItem.className = 'option-item';
+              
+              if (type === 'multiple') {
+                optionItem.innerHTML = `
+                  <div class="flex items-center gap-2">
+                    <input type="radio" disabled class="rounded-full">
+                    <label class="text-sm">${input.value}</label>
+                  </div>
+                `;
+              } else if (type === 'checkbox') {
+                optionItem.innerHTML = `
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" disabled class="rounded">
+                    <label class="text-sm">${input.value}</label>
+                  </div>
+                `;
+              } else if (type === 'dropdown') {
+                // For dropdown, we'll handle it differently
+                const select = question.querySelector('select');
+                if (select) {
+                  const option = document.createElement('option');
+                  option.textContent = input.value;
+                  select.appendChild(option);
+                }
+                return; // Skip adding to options container for dropdown
+              }
+              
+              optionsContainer.appendChild(optionItem);
+            }
+          });
+          
+          // Add options container if it doesn't exist
+          if (!question.querySelector('.option-list')) {
+            question.querySelector('.question-preview').appendChild(optionsContainer);
+          }
+        }
+        
+        hide('#edit-question-modal');
+      });
+
+      // Save survey
+      $('#save-survey').addEventListener('click', () => {
+        const questions = $$('#survey-canvas .canvas-item');
+        const surveyData = {
+          title: $('#survey-title').value || 'Untitled Survey',
+          questions: []
+        };
+        
+        questions.forEach(question => {
+          if (question.id === 'canvas-drop-zone') return;
+          
+          const type = question.dataset.type;
+          const text = question.querySelector('.question-text').textContent;
+          
+          surveyData.questions.push({
+            type,
+            text,
+            options: type === 'multiple' || type === 'checkbox' ? 
+              Array.from(question.querySelectorAll('.option-item label')).map(label => label.textContent) : 
+              undefined
+          });
+        });
+        
+        console.log('Survey saved:', surveyData);
+        alert('Survey saved successfully!');
+        
+        // Save to localStorage
+        const surveys = JSON.parse(localStorage.getItem('surveycraft_surveys') || '[]');
+        const currentUser = JSON.parse(localStorage.getItem('surveycraft_user'));
+        
+        // Update the survey if it exists, or create a new one
+        const existingIndex = surveys.findIndex(s => s.title === surveyData.title);
+        if (existingIndex !== -1) {
+          surveys[existingIndex] = {...surveys[existingIndex], ...surveyData};
+        } else {
+          surveys.push({
+            id: Date.now().toString(),
+            ...surveyData,
+            createdAt: new Date().toISOString(),
+            status: 'draft',
+            owner: currentUser.email
+          });
+        }
+        
+        localStorage.setItem('surveycraft_surveys', JSON.stringify(surveys));
+        state.surveys = surveys;
+      });
+
+      // Initialize with sample data for demonstration
+      setTimeout(() => {
+        if (state.authed) {
+          // Load surveys from localStorage
+          const savedSurveys = JSON.parse(localStorage.getItem('surveycraft_surveys') || '[]');
+          state.surveys = savedSurveys;
+          
+          // Sample metrics
+          window.APP.setMetrics({
+            surveys: state.surveys.length,
+            responses: 245,
+            completion: 72,
+            active: 8
+          });
+          
+          // Sample activity
+          window.APP.setActivity([
+            { type: 'survey', title: 'Created "Customer Feedback Survey"', time: '2 hours ago' },
+            { type: 'response', title: 'Received 15 new responses', time: '5 hours ago' },
+            { type: 'share', title: 'Shared "Employee Satisfaction Survey"', time: '1 day ago' }
+          ]);
+          
+          // Sample chart data
+          window.APP.setResponsesSeries({
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+              label: 'Responses',
+              data: [12, 19, 8, 15, 24, 18, 22],
+              borderColor: '#6366f1',
+              backgroundColor: 'rgba(99, 102, 241, 0.1)',
+              tension: 0.4,
+              fill: true
+            }]
+          });
+          
+          window.APP.setStatusSeries({
+            labels: ['Active', 'Draft', 'Closed', 'Archived'],
+            datasets: [{
+              data: [5, 3, 2, 2],
+              backgroundColor: [
+                'rgba(99, 102, 241, 0.8)',
+                'rgba(168, 85, 247, 0.8)',
+                'rgba(107, 114, 128, 0.8)',
+                'rgba(156, 163, 175, 0.8)'
+              ]
+            }]
+          });
+        }
+      }, 1000);
+    });
+
+    // Enter app
+    function enterApp(){
+      hide('#auth'); 
+      show('#app'); 
+      routeTo('dashboard');
+      
+      // Load user data
+      const user = JSON.parse(localStorage.getItem('surveycraft_user'));
+      if (user) {
+        $('input[type="text"][value="Your Name"]').value = user.name;
+        $('input[type="email"][value="you@company.com"]').value = user.email;
+      }
+    }
+
+    // Routing
+    function routeTo(name){
+      // Update page title and description
+      const routeTitles = {
+        dashboard: "Overview",
+        surveys: "Surveys",
+        share: "Share Surveys",
+        analytics: "Analytics",
+        audience: "Audience Management",
+        settings: "Settings",
+        builder: "Survey Builder"
+      };
+      
+      const routeDescriptions = {
+        dashboard: "Bring your data — we keep the UI clean.",
+        surveys: "Create and manage your surveys.",
+        share: "Distribute your surveys with advanced sharing options.",
+        analytics: "Gain insights from your survey data.",
+        audience: "Manage your survey participants.",
+        settings: "Configure your account and preferences.",
+        builder: "Drag and drop components to create your survey."
+      };
+      
+      $('#route-title').textContent = routeTitles[name] || "Overview";
+      $('#route-description').textContent = routeDescriptions[name] || "Bring your data — we keep the UI clean.";
+      
+      // nav active
+      $$('#app .nav-item').forEach(n => n.classList.toggle('active', n.dataset.route===name));
+      // sections
+      ['dashboard','surveys','share','builder','analytics','audience','settings'].forEach(r=>{
+        const el = document.getElementById('route-'+r); 
+        if(!el) return;
+        el.classList.toggle('hidden', r!==name);
+      });
+      
+      if(name==='dashboard'){ 
+        ensureCharts(); 
+        renderKpis(); 
+        renderActivity(); 
+      }
+      
+      if(name==='surveys'){ 
+        renderSurveys(); 
+      }
+      
+      if(name==='builder'){ 
+        initDragAndDrop(); 
+      }
+    }
+
+    function setLanguage(lang) {
+      state.language = lang;
+      
+      // Update UI elements with translations
+      const t = state.translations[lang];
+      
+      // Update navigation
+      $$('[data-route="dashboard"] span').textContent = t.dashboard;
+      $$('[data-route="surveys"] span').textContent = t.surveys;
+      $$('[data-route="analytics"] span').textContent = t.analytics;
+      $$('[data-route="audience"] span').textContent = t.audience;
+      $$('[data-route="settings"] span').textContent = t.settings;
+      
+      // Update buttons and text
+      $('#tab-login').textContent = t.signIn;
+      $('#tab-signup').textContent = t.signUp;
+      $('#btn-signup span').textContent = t.createAccount;
+      $('#btn-logout').innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> ${t.logout}`;
+      $('#btn-create').innerHTML = `<i class="fa-solid fa-plus"></i> ${t.newSurvey}`;
+      
+      // Update form labels
+      $('label[for="remember"] span').textContent = t.rememberMe;
+      $('a[href="#"]').textContent = t.forgotPassword;
+      $('label[for="terms"] span').textContent = t.agreeToTerms;
+      
+      // Update empty states
+      if ($('#surveys-list .empty')) {
+        $('#surveys-list .empty p').textContent = t.noSurveys;
+      }
+      if ($('#activity .empty')) {
+        $('#activity .empty p').textContent = t.noActivity;
+      }
+      
+      // Update settings
+      $('#setting-lang').value = lang;
+      $('label[for="setting-compact] span').textContent = t.compactMode;
+      $('label:has(#setting-lang) span').textContent = t.interfaceLanguage;
+      
+      // Update current language display
+      $('#current-lang').textContent = $('.language-option[data-lang="' + lang + '"]').textContent.trim();
+      $('#current-flag').className = 'fi fi-' + getCountryCode(lang) + ' rounded-sm';
+    }
+
+    function getCountryCode(lang) {
+      const map = {
+        'en': 'us',
+        'es': 'es',
+        'fr': 'fr',
+        'de': 'de',
+        'zh': 'cn'
+      };
+      return map[lang] || 'us';
+    }
+
+    // Render surveys list
+    function renderSurveys() {
+      const surveysList = $('#surveys-list');
+      
+      if (state.surveys.length === 0) {
+        surveysList.innerHTML = `
+          <div class="empty rounded-xl p-6 text-ink-400 text-center">
+            <i class="fa-solid fa-square-poll-vertical text-3xl mb-3 opacity-50"></i>
+            <p>No surveys yet</p>
+            <p class="text-sm mt-2">Get started by creating your first survey</p>
+            <button class="btn btn-primary mt-4" id="btn-create-empty"><i class="fa-solid fa-plus"></i> Create Survey</button>
+          </div>
+        `;
+        
+        $('#btn-create-empty').addEventListener('click', () => {
+          show('#create-survey-modal');
+        });
+        
+        return;
+      }
+      
+      surveysList.innerHTML = '';
+      
+      state.surveys.forEach(survey => {
+        const surveyEl = document.createElement('div');
+        surveyEl.className = 'card p-5 mb-4';
+        surveyEl.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-medium">${survey.title}</h3>
+              <p class="text-sm text-ink-400">Created on ${new Date(survey.createdAt).toLocaleDateString()}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="badge">${survey.status}</span>
+              <button class="btn btn-ghost p-2">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </button>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-3">
+            <button class="btn btn-ghost text-sm">
+              <i class="fa-solid fa-pen"></i> Edit
+            </button>
+            <button class="btn btn-ghost text-sm">
+              <i class="fa-solid fa-chart-simple"></i> Analytics
+            </button>
+            <button class="btn btn-primary text-sm">
+              <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+          </div>
+        `;
+        
+        surveysList.appendChild(surveyEl);
+      });
+    }
+
+    // Drag and Drop Functionality
+    function initDragAndDrop() {
+      const components = $$('.component-item');
+      const canvas = $('#survey-canvas');
+      const dropZone = $('#canvas-drop-zone');
+      
+      components.forEach(component => {
+        component.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', component.dataset.type);
+          component.classList.add('opacity-50');
+          dropZone.classList.add('active');
+        });
+        
+        component.addEventListener('dragend', () => {
+          components.forEach(c => c.classList.remove('opacity-50'));
+          dropZone.classList.remove('active');
+        });
+      });
+      
+      canvas.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('active');
+      });
+      
+      canvas.addEventListener('dragleave', () => {
+        dropZone.classList.remove('active');
+      });
+      
+      canvas.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const type = e.dataTransfer.getData('text/plain');
+        dropZone.classList.remove('active');
+        
+        // Create a new question based on the type
+        createNewQuestion(type);
+      });
+    }
+    
+    function createNewQuestion(type) {
+      const canvas = $('#survey-canvas');
+      const questionId = Date.now();
+      
+      let questionHTML = '';
+      const questionText = 'New Question';
+      
+      switch(type) {
+        case 'text':
+          questionHTML = `
+            <div class="canvas-item" data-type="text" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Text Question</div>
+                <input type="text" class="field w-full mt-2" placeholder="Type your answer here" disabled>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'multiple':
+          questionHTML = `
+            <div class="canvas-item" data-type="multiple" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Multiple Choice</div>
+                <div class="space-y-2 mt-2">
+                  <div class="flex items-center gap-2">
+                    <input type="radio" disabled class="rounded-full">
+                    <label class="text-sm">Option 1</label>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="radio" disabled class="rounded-full">
+                    <label class="text-sm">Option 2</label>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="radio" disabled class="rounded-full">
+                    <label class="text-sm">Option 3</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'checkbox':
+          questionHTML = `
+            <div class="canvas-item" data-type="checkbox" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Checkboxes</div>
+                <div class="space-y-2 mt-2">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" disabled class="rounded">
+                    <label class="text-sm">Option 1</label>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" disabled class="rounded">
+                    <label class="text-sm">Option 2</label>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type='checkbox' disabled class="rounded">
+                    <label class="text-sm">Option 3</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'dropdown':
+          questionHTML = `
+            <div class="canvas-item" data-type="dropdown" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Dropdown</div>
+                <select class="field w-full mt-2" disabled>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                </select>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'rating':
+          questionHTML = `
+            <div class="canvas-item" data-type="rating" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Rating</div>
+                <div class="rating-container mt-2">
+                  <span class="rating-star active"><i class="fa-solid fa-star"></i></span>
+                  <span class="rating-star active"><i class="fa-solid fa-star"></i></span>
+                  <span class="rating-star active"><i class="fa-solid fa-star"></i></span>
+                  <span class="rating-star active"><i class="fa-solid fa-star"></i></span>
+                  <span class="rating-star"><i class="fa-solid fa-star"></i></span>
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'date':
+          questionHTML = `
+            <div class="canvas-item" data-type="date" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Date Picker</div>
+                <input type="date" class="field w-full mt-2" disabled>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'scale':
+          questionHTML = `
+            <div class="canvas-item" data-type="scale" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Linear Scale</div>
+                <div class="scale-container mt-2">
+                  <div class="scale-point">
+                    <input type="radio" disabled>
+                    <div class="scale-label">1</div>
+                  </div>
+                  <div class="scale-point">
+                    <input type="radio" disabled>
+                    <div class="scale-label">2</div>
+                  </div>
+                  <div class="scale-point">
+                    <input type="radio" disabled>
+                    <div class="scale-label">3</div>
+                  </div>
+                  <div class="scale-point">
+                    <input type="radio" disabled>
+                    <div class="scale-label">4</div>
+                  </div>
+                  <div class="scale-point">
+                    <input type="radio" disabled>
+                    <div class="scale-label">5</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'file':
+          questionHTML = `
+            <div class="canvas-item" data-type="file" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">File Upload</div>
+                <div class="mt-2">
+                  <button class="btn btn-ghost w-full" disabled>
+                    <i class="fa-solid fa-upload"></i> Upload File
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+          
+        case 'section':
+          questionHTML = `
+            <div class="canvas-item" data-type="section" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">Section Header</div>
+                <p class="text-sm text-ink-400 mt-2">Section description goes here</p>
+              </div>
+            </div>
+          `;
+          break;
+          
+        default:
+          questionHTML = `
+            <div class="canvas-item" data-type="${type}" data-id="${questionId}">
+              <div class="item-controls">
+                <div class="control-btn" onclick="editQuestion('${questionId}')"><i class="fa-solid fa-pen fa-xs"></i></div>
+                <div class="control-btn" onclick="deleteQuestion('${questionId}')"><i class="fa-solid fa-trash fa-xs"></i></div>
+              </div>
+              <div class="question-preview">
+                <div class="question-text">${questionText}</div>
+                <div class="question-type">${type.charAt(0).toUpperCase() + type.slice(1)} Question</div>
+                <div class="mt-2 text-sm text-ink-400">Question preview would appear here</div>
+              </div>
+            </div>
+          `;
+      }
+      
+      // Insert before the drop zone
+      dropZone.insertAdjacentHTML('beforebegin', questionHTML);
+      
+      // Hide drop zone if there are items
+      if (canvas.children.length > 1) {
+        dropZone.classList.add('hidden');
+      }
+    }
+    
+    window.editQuestion = function(id) {
+      const question = $(`[data-id="${id}"]`);
+      if (!question) return;
+      
+      state.currentEditingQuestion = id;
+      const type = question.dataset.type;
+      const questionText = question.querySelector('.question-text').textContent;
+      
+      // Set modal title and question text
+      $('#edit-modal-title').textContent = `Edit ${type.charAt(0).toUpperCase() + type.slice(1)} Question`;
+      $('#question-text').value = questionText;
+      
+      // Hide all option sections first
+      $('#question-options').classList.add('hidden');
+      $('#rating-options').classList.add('hidden');
+      $('#scale-options').classList.add('hidden');
+      
+      // Show relevant options based on question type
+      if (['multiple', 'checkbox', 'dropdown'].includes(type)) {
+        $('#question-options').classList.remove('hidden');
+        
+        // Clear existing options
+        $('#options-container').innerHTML = '';
+        
+        // Add current options
+        const options = question.querySelectorAll('.option-item label');
+        options.forEach((option, index) => {
+          const optionId = Date.now() + index;
+          const optionHTML = `
+            <div class="option-item" data-option-id="${optionId}">
+              <input type="text" class="field flex-1" placeholder="Option text" value="${option.textContent}">
+              <button class="btn btn-ghost p-2" onclick="removeOption('${optionId}')">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          `;
+          $('#options-container').insertAdjacentHTML('beforeend', optionHTML);
+        });
+        
+        // Add at least 3 options if none exist
+        if (options.length === 0) {
+          for (let i = 0; i < 3; i++) {
+            const optionId = Date.now() + i;
+            const optionHTML = `
+              <div class="option-item" data-option-id="${optionId}">
+                <input type="text" class="field flex-1" placeholder="Option text" value="Option ${i + 1}">
+                <button class="btn btn-ghost p-2" onclick="removeOption('${optionId}')">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            `;
+            $('#options-container').insertAdjacentHTML('beforeend', optionHTML);
+          }
+        }
+      } else if (type === 'rating') {
+        $('#rating-options').classList.remove('hidden');
+      } else if (type === 'scale') {
+        $('#scale-options').classList.remove('hidden');
+      }
+      
+      show('#edit-question-modal');
+    };
+    
+    window.removeOption = function(optionId) {
+      $(`[data-option-id="${optionId}"]`).remove();
+    };
+    
+    window.deleteQuestion = function(id) {
+      const question = $(`[data-id="${id}"]`);
+      if (question && confirm('Are you sure you want to delete this question?')) {
+        question.remove();
+        
+        // Show drop zone if no questions left
+        const canvas = $('#survey-canvas');
+        if (canvas.children.length === 1) {
+          $('#canvas-drop-zone').classList.remove('hidden');
+        }
+      }
+    };
+
+    // Initialize drag and drop when builder is shown
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          if (!mutation.target.classList.contains('hidden')) {
+            initDragAndDrop();
+          }
+        }
+      });
+    });
+
+    observer.observe($('#route-builder'), { attributes: true });
+
+    // Helpers
+    function show(s){ $(s).classList.remove('hidden'); }
+    function hide(s){ $(s).classList.add('hidden'); }
+
+    // KPI render ("--" when empty)
+    function renderKpis(){
+      $('#kpi-surveys').textContent   = numberOrDash(state.metrics.surveys);
+      $('#kpi-responses').textContent = numberOrDash(state.metrics.responses);
+      $('#kpi-completion').textContent= percentOrDash(state.metrics.completion);
+      $('#kpi-active').textContent    = numberOrDash(state.metrics.active);
+      
+      // Update progress bar
+      if (state.metrics.completion !== null) {
+        $('#completion-progress').style.width = `${state.metrics.completion}%`;
+      }
+    }
+    const numberOrDash = v => (v===0 || v>0) ? String(v) : '--';
+    const percentOrDash = v => (v===0 || v>0) ? `${v}%` : '--';
+
+    // Activity render
+    function renderActivity(){
+      const wrap = $('#activity');
+      if(!state.activity.length){
+        wrap.innerHTML = '<div class="empty rounded-xl p-6 text-center"><i class="fa-solid fa-bell text-3xl mb-3 opacity-50"></i><p>No activity yet</p><p class="text-xs mt-2">Your recent actions will appear here</p></div>';
+        $('#badge-activity').textContent = '0 items';
+        return;
+      }
+      $('#badge-activity').textContent = `${state.activity.length} item${state.activity.length>1?'s':''}`;
+      wrap.innerHTML = state.activity.map(a => `
+        <div class="flex items-start gap-3 py-3 border-t border-white/5 first:border-t-0">
+          <span class="badge">${escapeHtml(a.type||'event')}</span>
+          <div class="text-sm">
+            <div>${escapeHtml(a.title||'')}</div>
+            <div class="text-ink-500">${escapeHtml(a.time||'')}</div>
+          </div>
+        </div>`).join('');
+    }
+
+    // Charts render (only when data provided)
+    function ensureCharts(){
+      // initialize canvases once
+      const ctxR = document.getElementById('chart-responses').getContext('2d');
+      const ctxS = document.getElementById('chart-status').getContext('2d');
+      if(!state.charts.responses){ state.charts.responses = new Chart(ctxR, { type:'line', data:{ labels:[], datasets:[] }, options: baseLineOpts() }); }
+      if(!state.charts.status){ state.charts.status = new Chart(ctxS, { type:'doughnut', data:{ labels:[], datasets:[] }, options: baseDoughnutOpts() }); }
+      // show placeholders until user injects series
+      toggleEmpty('#empty-responses', state.charts.responses.data.datasets.length===0);
+      toggleEmpty('#empty-status', state.charts.status.data.datasets.length===0);
+    }
+
+    function renderLine(canvasSel, emptySel, cfg){
+      ensureCharts();
+      const ch = state.charts.responses;
+      ch.data.labels = Array.isArray(cfg?.labels)? cfg.labels : [];
+      ch.data.datasets = Array.isArray(cfg?.datasets)? cfg.datasets : [];
+      ch.update();
+      toggleEmpty(emptySel, ch.data.datasets.length===0);
+    }
+    function renderDoughnut(canvasSel, emptySel, cfg){
+      ensureCharts();
+      const ch = state.charts.status;
+      ch.data.labels = Array.isArray(cfg?.labels)? cfg.labels : [];
+      ch.data.datasets = Array.isArray(cfg?.datasets)? cfg.datasets : [];
+      ch.update();
+      toggleEmpty(emptySel, ch.data.datasets.length===0);
+    }
+
+    const baseLineOpts = () => ({
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{ x:{ grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'rgba(229,231,235,.8)'}}, y:{ beginAtZero:true, grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'rgba(229,231,235,.8)'}}}
+    });
+    const baseDoughnutOpts = () => ({
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'bottom', labels:{ color:'rgba(229,231,235,.8)'} } }
+    });
+
+    function toggleEmpty(sel, shouldShow){
+      const el = document.querySelector(sel); if(!el) return; el.classList.toggle('hidden', !shouldShow);
+    }
+    function escapeHtml(str){
+      return String(str||'').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\'':'&#39;','"':'&quot;'}[c]));
+    }
+
+    // Switch auth tabs
+    function switchAuth(which){
+      const isLogin = which === 'login';
+      $('#tab-login').setAttribute('data-active', isLogin);
+      $('#tab-signup').setAttribute('data-active', !isLogin);
+      $('#form-login').classList.toggle('hidden', !isLogin);
+      $('#form-signup').classList.toggle('hidden', isLogin);
+    }
+
+    // Expose API to inject real data later
+    window.APP = {
+      setMetrics(m){
+        Object.assign(state.metrics, m||{}); renderKpis();
+      },
+      setActivity(list){ state.activity = Array.isArray(list)? list : []; renderActivity(); },
+      setResponsesSeries(cfg){ renderLine('#chart-responses', '#empty-responses', cfg); },
+      setStatusSeries(cfg){ renderDoughnut('#chart-status', '#empty-status', cfg); }
+    };
+  </script>
+</body>
+</html>
