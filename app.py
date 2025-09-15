@@ -164,7 +164,7 @@ def validate_email(s: str) -> bool:
 # ---------- Routes: UI ----------
 @app.get("/")
 def index():
-    return render_template("index.html")
+    return render_template("templates/index.html")
 
 @app.get("/login")
 def login_page():
@@ -329,6 +329,9 @@ def init_db_cmd():
     db.create_all()
     print("✔ Database initialized")
 
-if __name__ == '__main__':
-    # Change this line to enable debug mode
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+    # Flip DEBUG via env DEBUG=1 if needed
+    debug = bool_from_env("DEBUG", False)
+    app.run(host='0.0.0.0', port=80)
