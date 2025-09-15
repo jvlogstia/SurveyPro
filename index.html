@@ -90,7 +90,7 @@
       </div>
 
       <!-- Login -->
-      <form id="form-login" class="mt-6 space-y-4" autocomplete="on">
+      <form id="form-login" class="mt-6 space-y-4" autocomplete="on" method="POST" action="/auth/login">
         <label class="block">
           <span class="block text-sm mb-1" data-i18n="email">Email</span>
           <input type="email" name="email" class="field w-full" placeholder="you@company.com" required />
@@ -113,7 +113,7 @@
       </form>
 
       <!-- Signup -->
-      <form id="form-signup" class="mt-6 space-y-4 hidden" autocomplete="on">
+      <form id="form-signup" class="mt-6 space-y-4 hidden" autocomplete="on" method="POST" action="/auth/signup">
         <label class="block">
           <span class="block text-sm mb-1" data-i18n="fullname">Full name</span>
           <input type="text" name="name" class="field w-full" placeholder="Your name" required />
@@ -124,7 +124,7 @@
         </label>
         <label class="block">
           <span class="block text-sm mb-1" data-i18n="password">Password</span>
-          <input type="password" name="password" class="field w-full" placeholder="Create a password (min 6 chars)" minlength="6" required />
+          <input type="password" name="password" class="field w-full" placeholder="Create a password (min 8 chars)" minlength="8" required />
         </label>
         <label class="inline-flex items-center gap-2 text-sm">
           <input type="checkbox" name="terms" required />
@@ -162,7 +162,9 @@
           <a href="#" data-route="settings"  class="nav-item"><i class="fa-solid fa-gear w-5"></i><span data-i18n="settings">Settings</span></a>
         </nav>
         <div class="mt-10 pt-6 border-t border-white/10">
-          <button id="btn-logout" class="btn btn-ghost w-full"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logout">Logout</span></button>
+          <form method="POST" action="/auth/logout">
+            <button type="submit" class="btn btn-ghost w-full"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logout">Logout</span></button>
+          </form>
         </div>
       </aside>
 
@@ -564,7 +566,7 @@
       },
       hi: { auth_title:'SurveyCraft Pro से कनेक्ट करें', auth_sub:'जारी रखने के लिए साइन इन करें।', login:'लॉगिन', signup:'साइन अप', email:'ईमेल', password:'पासवर्ड', remember:'मुझे याद रखें', forgot:'पासवर्ड भूल गए?', signin:'साइन इन', login_err:'कृपया अपनी जानकारी जाँचें।', fullname:'पूरा नाम', agree:'मैं नियमों से सहमत हूँ', create:'खाता बनाएं', signup_err:'कृपया विवरण सत्यापित करें।', connect:'कनेक्ट', dashboard:'डैशबोर्ड', surveys:'सर्वे', builder:'बिल्डर', share:'शेयर', analytics:'एनालिटिक्स', audience:'ऑडियंस', settings:'सेटिंग्स', logout:'लॉगआउट', kpi_surveys:'सर्वे', kpi_responses:'रेस्पॉन्स', kpi_completion:'कम्प्लीशन रेट', kpi_active:'अभी सक्रिय', resp_time:'समय के साथ रेस्पॉन्स', no_resp:'डेटा उपलब्ध नहीं', survey_status:'सर्वे स्थिति', no_survey:'सर्वे डेटा उपलब्ध नहीं', surveys_sub:'अपने सर्वे बनाएं और मैनेज करें', new_survey:'नया सर्वे', no_surveys:'अभी कोई सर्वे नहीं', start_create:'पहला सर्वे बनाकर शुरू करें', create_survey:'सर्वे बनाएं', builder_sub:'कंपोनेंट ड्रैग & ड्रॉप करें', preview:'पूर्वावलोकन', save:'सेव', components:'कंपोनेंट्स', drag_here:'कंपोनेंट यहाँ ड्रैग करें', comp_text:'टेक्स्ट प्रश्न', comp_mcq:'बहुविकल्पी', comp_check:'चेकबॉक्स', comp_drop:'ड्रॉपडाउन', comp_rate:'रेटिंग', comp_date:'तारीख चयन', comp_scale:'लिनीयर स्केल', comp_file:'फ़ाइल अपलोड', comp_section:'सेक्शन हेडर', canvas:'कैनवास', drop_to_build:'यहाँ ड्रैग करके सर्वे बनाएं', share_sub:'एडवांस्ड विकल्पों के साथ साझा करें', export:'एक्सपोर्ट', gen_link:'लिंक बनाएं', gov_sec:'सरकारी सुरक्षा विकल्प', e2ee:'एंड-टू-एंड एन्क्रिप्शन (UI)', rbac:'भूमिका-आधारित एक्सेस', sovereignty:'डेटा संप्रभुता', audit:'ऑडिट लॉगिंग', enable_gov:'गवर्नमेंट मोड सक्षम करें', share_via:'इसके माध्यम से साझा करें', embed_code:'एम्बेड कोड', analytics_sub:'अपने डेटा से इनसाइट्स प्राप्त करें', resp_rate:'रेस्पॉन्स रेट', device_break:'डिवाइस के अनुसार कम्प्लीशन', detailed_resp:'विस्तृत प्रतिक्रियाएँ', audience_sub:'प्रतिभागियों का प्रबंधन', add_contact:'संपर्क जोड़ें', aud_over:'ऑडियंस ओवरव्यू', total_contacts:'कुल संपर्क', active:'सक्रिय', unsub:'अनसब्सक्राइब्ड', groups:'समूह', contact_growth:'कॉन्टैक्ट ग्रोथ', contact_list:'कॉन्टैक्ट सूची', name:'नाम', status:'स्थिति', last_activity:'अंतिम गतिविधि', no_contacts:'अभी कोई संपर्क नहीं', settings_sub:'खाता वरीयताएँ सेट करें', account_settings:'खाता सेटिंग्स', timezone:'समय क्षेत्र', save_profile:'सेव', ui_prefs:'इंटरफ़ेस प्रेफ़रेंसेज़', email_notif:'ईमेल सूचनाएँ', compact:'कॉम्पैक्ट मोड', security_settings:'सुरक्षा सेटिंग्स', twofa:'द्वि-कारक प्रमाणीकरण', enable:'सक्षम करें', gov_mode:'गवर्नमेंट मोड', survey_title:'सर्वे शीर्षक', choose_method:'बनाने की विधि चुनें', start_scratch:'शुरू से बनाएँ', scratch_sub:'कस्टम सर्वे बनाएँ', use_template:'टेम्पलेट उपयोग करें', template_sub:'प्रोफेशनल टेम्पलेट चुनें', ai_assistant:'AI सहायक', ai_sub:'विषय से जनरेट करें', import_q:'प्रश्न आयात करें', import_sub:'CSV / Word', cancel:'रद्द', create:'बनाएँ' },
       es:{auth_title:'Conectar a SurveyCraft Pro',auth_sub:'Inicia sesión para continuar.',login:'Iniciar sesión',signup:'Registrarse',email:'Correo',password:'Contraseña',remember:'Recuérdame',forgot:'¿Olvidaste la contraseña?',signin:'Entrar',login_err:'Fallo de autenticación.',fullname:'Nombre completo',agree:'Acepto los términos',create:'Crear cuenta',signup_err:'Verifica tus datos.',connect:'Conectar',dashboard:'Panel',surveys:'Encuestas',builder:'Constructor',share:'Compartir',analytics:'Analítica',audience:'Audiencia',settings:'Ajustes',logout:'Salir',kpi_surveys:'Encuestas',kpi_responses:'Respuestas',kpi_completion:'Tasa de finalización',kpi_active:'Activos ahora',resp_time:'Respuestas en el tiempo',no_resp:'Sin datos',survey_status:'Estado de encuestas',no_survey:'Sin datos de encuestas',surveys_sub:'Crea y gestiona encuestas',new_survey:'Nueva encuesta',no_surveys:'Aún no hay encuestas',start_create:'Crea tu primera encuesta',create_survey:'Crear encuesta',builder_sub:'Arrastra y suelta componentes',preview:'Vista previa',save:'Guardar',components:'Componentes',drag_here:'Arrastra aquí',comp_text:'Pregunta de texto',comp_mcq:'Opción múltiple',comp_check:'Casillas',comp_drop:'Desplegable',comp_rate:'Valoración',comp_date:'Fecha',comp_scale:'Escala lineal',comp_file:'Subir archivo',comp_section:'Encabezado',canvas:'Lienzo',drop_to_build:'Arrastra para construir',share_sub:'Comparte con opciones avanzadas',export:'Exportar',gen_link:'Generar enlace',gov_sec:'Opciones de seguridad gubernamental',e2ee:'Cifrado extremo a extremo',rbac:'Control de acceso por rol',sovereignty:'Soberanía de datos',audit:'Registro de auditoría',enable_gov:'Activar modo gobierno',share_via:'Compartir vía',embed_code:'Código de inserción',analytics_sub:'Obtén información',resp_rate:'Tasa de respuesta',device_break:'Finalización por dispositivo',detailed_resp:'Respuestas detalladas',audience_sub:'Gestiona participantes',add_contact:'Agregar contacto',aud_over:'Resumen de audiencia',total_contacts:'Contactos totales',active:'Activos',unsub:'Darse de baja',groups:'Grupos',contact_growth:'Crecimiento de contactos',contact_list:'Lista de contactos',name:'Nombre',status:'Estado',last_activity:'Última actividad',no_contacts:'Sin contactos',settings_sub:'Configura tu cuenta',account_settings:'Ajustes de cuenta',timezone:'Zona horaria',save_profile:'Guardar',ui_prefs:'Preferencias de interfaz',email_notif:'Notificaciones por correo',compact:'Modo compacto',security_settings:'Ajustes de seguridad',twofa:'Autenticación de dos factores',enable:'Activar',gov_mode:'Modo gobierno',survey_title:'Título',choose_method:'Elige método',start_scratch:'Desde cero',scratch_sub:'Crea una encuesta',use_template:'Usar plantilla',template_sub:'Elige una plantilla',ai_assistant:'Asistente IA',ai_sub:'Generar por tema',import_q:'Importar preguntas',import_sub:'CSV / Word',cancel:'Cancelar',create:'Crear'},
-      fr:{auth_title:"Se connecter à SurveyCraft Pro",auth_sub:"Connectez‑vous pour continuer.",login:"Connexion",signup:"Inscription",email:"Email",password:"Mot de passe",remember:"Se souvenir de moi",forgot:"Mot de passe oublié ?",signin:"Se connecter",login_err:"Échec d'authentification.",fullname:"Nom complet",agree:"J'accepte les conditions",create:"Créer un compte",signup_err:"Vérifiez vos informations.",connect:"Connexion",dashboard:"Tableau de bord",surveys:"Sondages",builder:"Éditeur",share:"Partager",analytics:"Analytique",audience:"Audience",settings:"Paramètres",logout:"Déconnexion",kpi_surveys:"Sondages",kpi_responses:"Réponses",kpi_completion:"Taux d'achèvement",kpi_active:"Actifs",resp_time:"Réponses au fil du temps",no_resp:"Aucune donnée",survey_status:"Statut des sondages",no_survey:"Aucune donnée de sondage",surveys_sub:"Créez et gérez vos sondages",new_survey:"Nouveau sondage",no_surveys:"Pas encore de sondage",start_create:"Créez votre premier sondage",create_survey:"Créer un sondage",builder_sub:"Glisser‑déposer des composants",preview:"Aperçu",save:"Enregistrer",components:"Composants",drag_here:"Glissez ici",comp_text:"Question texte",comp_mcq:"Choix multiple",comp_check:"Cases à cocher",comp_drop:"Liste déroulante",comp_rate:"Évaluation",comp_date:"Date",comp_scale:"Échelle linéaire",comp_file:"Téléverser un fichier",comp_section:"En‑tête",canvas:"Canvas",drop_to_build:"Glissez pour créer",share_sub:"Partage avancé",export:"Exporter",gen_link:"Générer le lien",gov_sec:"Options de sécurité gouvernementale",e2ee:"Chiffrement de bout en bout",rbac:"Contrôle d'accès par rôle",sovereignty:"Souveraineté des données",audit:"Journal d'audit",enable_gov:"Activer le mode gouvernement",share_via:"Partager via",embed_code:"Code d'intégration",analytics_sub:"Obtenez des insights",resp_rate:"Taux de réponse",device_break:"Achèvement par appareil",detailed_resp:"Réponses détaillées",audience_sub:"Gérez vos participants",add_contact:"Ajouter un contact",aud_over:"Vue d'ensemble",total_contacts:"Contacts totaux",active:"Actifs",unsub:"Désabonnés",groups:"Groupes",contact_growth:"Croissance des contacts",contact_list:"Liste de contacts",name:"Nom",status:"Statut",last_activity:"Dernière activité",no_contacts:"Aucun contact",settings_sub:"Configurez votre compte",account_settings:"Paramètres du compte",timezone:"Fuseau horaire",save_profile:"Enregistrer",ui_prefs:"Préférences d'interface",email_notif:"Notifications email",compact:"Mode compact",security_settings:"Paramètres de sécurité",twofa:"Authentification à deux facteurs",enable:"Activer",gov_mode:"Mode gouvernement",survey_title:"Titre du sondage",choose_method:"Choisir la méthode",start_scratch:"Partir de zéro",scratch_sub:"Créer un sondage personnalisé",use_template:"Utiliser un modèle",template_sub:"Choisir un modèle",ai_assistant:"Assistant IA",ai_sub:"Générer depuis un sujet",import_q:"Importer des questions",import_sub:"CSV / Word",cancel:"Annuler",create:"Créer"},
+      fr:{auth_title:"Se connecter à SurveyCraft Pro",auth_sub:"Connectez‑vous pour continuer.",login:"Connexion",signup:"Inscription",email:"Email",password:"Mot de passe",remember:"Se souvenir de moi",forgot:"Mot de passe oublié ?",signin:"Se connecter",login_err:"Échec d'authentification.",fullname:"Nom complet",agree:"J'accepte les conditions",create:"Créer un compte",signup_err:"Vérifiez vos informations.",connect:"Connexion",dashboard:"Tableau de bord",surveys:"Sondages",builder:"Éditeur",share:"Partager",analytics:"Analytique",audience:"Audience",settings:"Paramètres",logout:"Déconnexion",kpi_surveys:"Sondages",kpi_responses:"Réponses",kpi_completion:"Taux d'achèvement",kpi_active:"Actifs",resp_time:"Réponses au fil du temps",no_resp:"Aucune donnée",survey_status:"Statut des sondages",no_survey:"Aucune donnée de sondage",surveys_sub:"Créez et gérez vos sondages",new_survey:"Nouveau sondage",no_surveys:"Pas encore de sondage",start_create:"Créez votre premier sondage",create_survey:"Créer un sondage",builder_sub:"Glisser‑déposer des composants",preview:"Aperçu",save:"Enregistrer",components:"Composants",drag_here:"Glissez ici",comp_text:"Question texte",comp_mcq:"Choix multiple",comp_check:"Cases à cocher",comp_drop:"Liste déroulante",comp_rate:"Évaluation",comp_date:"Date",comp_scale:"Échelle linéaire',comp_file:"Téléverser un fichier",comp_section:"En‑tête",canvas:"Canvas",drop_to_build:"Glissez pour créer",share_sub:"Partage avancé",export:"Exporter",gen_link:"Générer le lien",gov_sec:"Opciones de seguridad gubernamental",e2ee:"Chiffrement de bout en bout",rbac:"Contrôle d'accès par rôle",sovereignty:"Souveraineté des données",audit:"Journal d'audit",enable_gov:"Activer le mode gouvernement",share_via:"Partager via",embed_code:"Code d'intégration",analytics_sub:"Obtenez des insights",resp_rate:"Taux de réponse",device_break:"Achèvement par appareil",detailed_resp:"Réponses détaillées",audience_sub:"Gérez vos participants",add_contact:"Ajouter un contact",aud_over:"Vue d'ensemble",total_contacts:"Contacts totaux",active:"Actifs",unsub:"Désabonnés",groups:"Groupes",contact_growth:"Croissance des contacts",contact_list:"Liste de contacts",name:"Nom",status:"Statut",last_activity:"Dernière activité",no_contacts:"Aucun contact",settings_sub:"Configurez votre compte",account_settings:"Paramètres du compte",timezone:"Fuseau horaire",save_profile:"Enregistrer",ui_prefs:"Préférences d'interface",email_notif:"Notifications email",compact:"Mode compact",security_settings:"Paramètres de seguridad",twofa:"Authentification à deux facteurs",enable:"Activer",gov_mode:"Mode gouvernement",survey_title:"Titre du sondage",choose_method:"Choisir la méthode",start_scratch:"Partir de zéro",scratch_sub:"Créer un sondage personnalisé",use_template:"Utiliser un modèle",template_sub:"Choisir un modèle",ai_assistant:"Assistant IA",ai_sub:"Générer depuis un sujet",import_q:"Importer des questions",import_sub:"CSV / Word",cancel:"Annuler",create:"Créer"},
       de:{auth_title:'Mit SurveyCraft Pro verbinden',auth_sub:'Zum Fortfahren anmelden.',login:'Anmelden',signup:'Registrieren',email:'E‑Mail',password:'Passwort',remember:'Angemeldet bleiben',forgot:'Passwort vergessen?',signin:'Einloggen',login_err:'Authentifizierung fehlgeschlagen.',fullname:'Vollständiger Name',agree:'Ich stimme den Bedingungen zu',create:'Konto erstellen',signup_err:'Bitte Details prüfen.',connect:'Verbinden',dashboard:'Dashboard',surveys:'Umfragen',builder:'Builder',share:'Teilen',analytics:'Analytik',audience:'Zielgruppe',settings:'Einstellungen',logout:'Abmelden',kpi_surveys:'Umfragen',kpi_responses:'Antworten',kpi_completion:'Abschlussrate',kpi_active:'Aktiv jetzt',resp_time:'Antworten im Zeitverlauf',no_resp:'Keine Daten',survey_status:'Umfragestatus',no_survey:'Keine Umfragedaten',surveys_sub:'Umfragen erstellen und verwalten',new_survey:'Neue Umfrage',no_surveys:'Noch keine Umfragen',start_create:'Erste Umfrage erstellen',create_survey:'Umfrage erstellen',builder_sub:'Per Drag & Drop erstellen',preview:'Vorschau',save:'Speichern',components:'Komponenten',drag_here:'Hierher ziehen',comp_text:'Textfrage',comp_mcq:'Multiple Choice',comp_check:'Kontrollkästchen',comp_drop:'Dropdown',comp_rate:'Bewertung',comp_date:'Datum',comp_scale:'Lineare Skala',comp_file:'Datei hochladen',comp_section:'Abschnittsüberschrift',canvas:'Arbeitsfläche',drop_to_build:'Zum Erstellen hierher ziehen',share_sub:'Mit erweiterten Optionen teilen',export:'Exportieren',gen_link:'Link erstellen',gov_sec:'Behördliche Sicherheitsoptionen',e2ee:'Ende‑zu‑Ende‑Verschlüsselung',rbac:'Rollenbasierte Zugriffe',sovereignty:'Datenhoheit',audit:'Audit‑Protokoll',enable_gov:'Behördenmodus aktivieren',share_via:'Teilen über',embed_code:'Einbettungscode',analytics_sub:'Erkenntnisse gewinnen',resp_rate:'Antwortrate',device_break:'Abschluss nach Gerät',detailed_resp:'Detaillierte Antworten',audience_sub:'Teilnehmer verwalten',add_contact:'Kontakt hinzufügen',aud_over:'Übersicht',total_contacts:'Gesamtkontakte',active:'Aktiv',unsub:'Abgemeldet',groups:'Gruppen',contact_growth:'Kontaktwachstum',contact_list:'Kontaktliste',name:'Name',status:'Status',last_activity:'Letzte Aktivität',no_contacts:'Keine Kontakte',settings_sub:'Konto konfigurieren',account_settings:'Kontoeinstellungen',timezone:'Zeitzone',save_profile:'Änderungen speichern',ui_prefs:'Oberflächenpräferenzen',email_notif:'E‑Mail‑Benachrichtigungen',compact:'Kompaktmodus',security_settings:'Sicherheitseinstellungen',twofa:'Zwei‑Faktor‑Authentifizierung',enable:'Aktivieren',gov_mode:'Behördenmodus',survey_title:'Umfragetitel',choose_method:'Methode wählen',start_scratch:'Von Grund auf',scratch_sub:'Eigene Umfrage erstellen',use_template:'Vorlage verwenden',template_sub:'Professionelle Vorlage',ai_assistant:'KI‑Assistent',ai_sub:'Aus Thema generieren',import_q:'Fragen importieren',import_sub:'CSV / Word',cancel:'Abbrechen',create:'Erstellen'}
     };
 
@@ -583,23 +585,11 @@
       }, duration);
     }
 
-    // State keys
-    const k = {
-      users:'scp_users',
-      user:'scp_user',
-      surveys:'scp_surveys',
-      responses:'scp_responses',
-      contacts:'scp_contacts',
-      profile:'scp_profile',
-      lang:'scp_lang',
-      prefs:'scp_prefs'
-    };
-
     // Helpers
     const uid = (p='id') => p + '_' + Math.random().toString(36).slice(2,9) + Date.now().toString(36);
     const todayISO = () => new Date().toISOString();
-    const currentLang = () => localStorage.getItem(k.lang) || 'en';
-    const setLang = (l) => localStorage.setItem(k.lang, l);
+    const currentLang = () => localStorage.getItem('scp_lang') || 'en';
+    const setLang = (l) => localStorage.setItem('scp_lang', l);
 
     // Persist & switch language
     function applyI18n(lang){
@@ -608,16 +598,6 @@
       $('#current-lang').textContent = {en:'English',hi:'हिन्दी',es:'Español',fr:'Français',de:'Deutsch'}[lang] || 'English';
       document.documentElement.lang = lang;
     }
-
-    // Storage accessors
-    const get = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch { return fallback; } };
-    const set = (key, val) => localStorage.setItem(key, JSON.stringify(val));
-
-    // Auth (local demo; NOT production auth)
-    function getUsers(){ return get(k.users, []); }
-    function saveUsers(u){ set(k.users, u); }
-
-    function gotoApp(){ $('#auth').classList.add('hidden'); $('#app').classList.remove('hidden'); routeTo('dashboard'); refreshAll(); }
 
     // Tab switch
     $('#tab-login').addEventListener('click',()=>{
@@ -632,33 +612,6 @@
       $('#tab-login').dataset.active=false; $('#tab-signup').dataset.active=true;
       $('#login-error').classList.add('hidden');
     });
-
-    // Login
-    $('#form-login').addEventListener('submit',e=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const email = fd.get('email');
-      const password = fd.get('password');
-      const u = getUsers().find(u=>u.email===email && u.password===password);
-      if(u){ set(k.user, u); gotoApp(); } else { $('#login-error').classList.remove('hidden'); setTimeout(()=>$('#login-error').classList.add('hidden'), 2500); }
-    });
-
-    // Signup
-    $('#form-signup').addEventListener('submit',e=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const user = { id:uid('u'), name:fd.get('name').trim(), email:fd.get('email').trim(), password:fd.get('password') };
-      if(!user.name || !user.email || user.password.length < 6){ $('#signup-error').classList.remove('hidden'); return; }
-      const users = getUsers();
-      if(users.some(u=>u.email===user.email)){ $('#signup-error').textContent='Email already registered'; $('#signup-error').classList.remove('hidden'); return; }
-      users.push(user); saveUsers(users);
-      showToast('Account created successfully! Please login.');
-      $('#form-login').classList.remove('hidden'); $('#form-signup').classList.add('hidden');
-      $('#tab-login').dataset.active=true; $('#tab-signup').dataset.active=false;
-    });
-
-    // Logout
-    $('#btn-logout').addEventListener('click',()=>{ localStorage.removeItem(k.user); location.reload(); });
 
     // Routing
     const routes = ['dashboard','surveys','builder','share','analytics','audience','settings'];
@@ -687,17 +640,6 @@
     // Language UI
     $('#lang-toggle').addEventListener('click',()=>{ const wasHidden = $('#lang-menu').classList.toggle('hidden'); $('#lang-toggle').setAttribute('aria-expanded', String(!wasHidden)); });
     $$('.language-option').forEach(btn=> btn.addEventListener('click',()=>{ setLang(btn.dataset.lang); applyI18n(btn.dataset.lang); $('#lang-menu').classList.add('hidden'); refreshAll(); }));
-
-    // Surveys storage
-    function getSurveys(){ return get(k.surveys, []); }
-    function saveSurveys(s){ set(k.surveys, s); }
-
-    function getResponses(){ return get(k.responses, []); }
-    function saveResponses(r){ set(k.responses, r); }
-
-    // Contacts
-    function getContacts(){ return get(k.contacts, []); }
-    function saveContacts(c){ set(k.contacts, c); }
 
     // Builder logic
     const canvas = $('#survey-canvas');
@@ -831,16 +773,31 @@
         }
         return q;
       });
-      const surveys = getSurveys();
-      if(editingSurveyId){
-        const idx = surveys.findIndex(s=>s.id===editingSurveyId);
-        if(idx>-1) surveys[idx] = { ...surveys[idx], title, questions };
-      } else {
-        surveys.push({ id:uid('s'), title, status:'active', created: todayISO(), method:'builder', questions });
-      }
-      saveSurveys(surveys);
-      showToast('Survey saved');
-      renderSurveys(); routeTo('surveys');
+      
+      // Send to server via API
+      fetch('/api/surveys', {
+        method: editingSurveyId ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editingSurveyId,
+          title,
+          questions
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.success) {
+          showToast('Survey saved');
+          renderSurveys(); 
+          routeTo('surveys');
+        } else {
+          showToast('Error saving survey: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast('Error saving survey');
+      });
     });
 
     // Preview
@@ -914,19 +871,26 @@
 
     // Share / Export
     $('#generate-share-link').addEventListener('click',()=>{
-      const surveys = getSurveys(); if(surveys.length===0){ showToast('No surveys to share'); return; }
-      const s = surveys[0]; // demo: first survey
-      const link = `https://yourdomain.example/survey/${s.id}`;
-      $('#embed-code').value = `<iframe src="${link}" width="100%" height="500"></iframe>`;
-      navigator.clipboard.writeText(link).catch(()=>{});
-      showToast('Share link copied');
+      fetch('/api/surveys')
+        .then(response => response.json())
+        .then(surveys => {
+          if(surveys.length===0){ showToast('No surveys to share'); return; }
+          const s = surveys[0]; // demo: first survey
+          const link = `${window.location.origin}/survey/${s.id}`;
+          $('#embed-code').value = `<iframe src="${link}" width="100%" height="500"></iframe>`;
+          navigator.clipboard.writeText(link).catch(()=>{});
+          showToast('Share link copied');
+        });
     });
     $('#copy-embed').addEventListener('click',()=>{ navigator.clipboard.writeText($('#embed-code').value).then(()=> showToast('Embed code copied')); });
 
     $('#export-btn').addEventListener('click',()=>{
-      const data = { surveys: getSurveys(), responses: getResponses() };
-      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `surveycraft_export_${Date.now()}.json`; a.click(); URL.revokeObjectURL(a.href); showToast('Exported JSON');
+      fetch('/api/export')
+        .then(response => response.json())
+        .then(data => {
+          const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+          const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `surveycraft_export_${Date.now()}.json`; a.click(); URL.revokeObjectURL(a.href); showToast('Exported JSON');
+        });
     });
 
     // GOV Mode
@@ -938,153 +902,274 @@
     let respChart, statusChart, rrChart, devChart, audChart;
 
     function renderDashboard(){
-      const surveys = getSurveys(); const responses = getResponses();
-      $('#kpi-surveys').textContent = String(surveys.length);
-      $('#kpi-responses').textContent = String(responses.length);
-      const completed = responses.filter(r=>r.completed).length; const rate = responses.length? Math.round((completed/responses.length)*100):0;
-      $('#kpi-completion').textContent = rate + '%'; $('#completion-progress').style.width = rate + '%';
-      $('#kpi-active').textContent = String(surveys.filter(s=>s.status==='active').length);
+      fetch('/api/dashboard')
+        .then(response => response.json())
+        .then(data => {
+          $('#kpi-surveys').textContent = String(data.surveyCount);
+          $('#kpi-responses').textContent = String(data.responseCount);
+          $('#kpi-completion').textContent = data.completionRate + '%'; 
+          $('#completion-progress').style.width = data.completionRate + '%';
+          $('#kpi-active').textContent = String(data.activeSurveys);
 
-      // Status pie
-      const statusCounts = ['active','paused','draft'].map(st=> surveys.filter(s=>s.status===st).length);
-      if(statusChart) statusChart.destroy();
-      const hasStatus = statusCounts.some(v=>v>0);
-      $('#empty-status').classList.toggle('hidden', hasStatus);
-      if(hasStatus){
-        statusChart = new Chart($('#chart-status'), { type:'doughnut', data:{ labels:['Active','Paused','Draft'], datasets:[{ data:statusCounts }]}, options:{ responsive:true, plugins:{legend:{display:true}} }});
-      }
+          // Status pie
+          if(data.statusChart) {
+            const statusCounts = data.statusChart;
+            if(statusChart) statusChart.destroy();
+            const hasStatus = statusCounts.some(v=>v>0);
+            $('#empty-status').classList.toggle('hidden', hasStatus);
+            if(hasStatus){
+              statusChart = new Chart($('#chart-status'), { type:'doughnut', data:{ labels:['Active','Paused','Draft'], datasets:[{ data:statusCounts }]}, options:{ responsive:true, plugins:{legend:{display:true}} }});
+            }
+          }
 
-      // Responses line
-      const rangeDays = 30;
-      const labels = Array.from({length: rangeDays}).map((_,i)=>{ const d = new Date(); d.setDate(d.getDate()-(rangeDays-1-i)); return d.toISOString().slice(0,10);});
-      const series = labels.map(day => responses.filter(r=> r.date.slice(0,10)===day).length);
-      $('#empty-responses').classList.toggle('hidden', series.some(x=>x>0));
-      if(respChart) respChart.destroy();
-      if(series.some(x=>x>0)) respChart = new Chart($('#chart-responses'), { type:'line', data:{ labels, datasets:[{ label:'Responses', data:series, tension:.3, fill:true }] }, options:{ responsive:true, plugins:{legend:{display:false}} }});
+          // Responses line
+          if(data.responsesOverTime) {
+            const labels = data.responsesOverTime.labels;
+            const series = data.responsesOverTime.data;
+            $('#empty-responses').classList.toggle('hidden', series.some(x=>x>0));
+            if(respChart) respChart.destroy();
+            if(series.some(x=>x>0)) respChart = new Chart($('#chart-responses'), { type:'line', data:{ labels, datasets:[{ label:'Responses', data:series, tension:.3, fill:true }] }, options:{ responsive:true, plugins:{legend:{display:false}} }});
+          }
+        });
     }
 
     $$('.range-btn').forEach(b=> b.addEventListener('click',()=> showToast('Range switch (demo)')));
 
     function renderSurveys(){
-      const list = $('#surveys-list'); const surveys = getSurveys();
-      if(surveys.length===0){ list.className='empty p-6 text-ink-400 text-center'; list.innerHTML = `
-        <i class="fa-solid fa-square-poll-vertical text-3xl mb-3 opacity-50"></i>
-        <p>${I18N[currentLang()].no_surveys}</p>
-        <p class="text-sm mt-2">${I18N[currentLang()].start_create}</p>
-        <button class="btn btn-primary mt-4" id="cta-create"><i class="fa-solid fa-plus"></i> ${I18N[currentLang()].create_survey}</button>`; $('#cta-create')?.addEventListener('click', openCreate); return; }
+      fetch('/api/surveys')
+        .then(response => response.json())
+        .then(surveys => {
+          const list = $('#surveys-list');
+          if(surveys.length===0){ 
+            list.className='empty p-6 text-ink-400 text-center'; 
+            list.innerHTML = `
+              <i class="fa-solid fa-square-poll-vertical text-3xl mb-3 opacity-50"></i>
+              <p>${I18N[currentLang()].no_surveys}</p>
+              <p class="text-sm mt-2">${I18N[currentLang()].start_create}</p>
+              <button class="btn btn-primary mt-4" id="cta-create"><i class="fa-solid fa-plus"></i> ${I18N[currentLang()].create_survey}</button>`;
+            $('#cta-create')?.addEventListener('click', openCreate); 
+            return; 
+          }
 
-      list.className='grid gap-4 md:grid-cols-2';
-      list.innerHTML = '';
-      surveys.forEach(s=>{
-        const card = document.createElement('div'); card.className='card p-5';
-        card.innerHTML = `
-          <div class='flex items-start justify-between'>
-            <div>
-              <div class='text-xs text-ink-400'>${new Date(s.created).toLocaleString()}</div>
-              <h3 class='text-lg font-semibold mt-1'>${s.title}</h3>
-              <div class='text-xs mt-1'>Questions: ${s.questions.length}</div>
-            </div>
-            <span class='px-2 py-1 text-xs rounded bg-white/10'>${s.status||'active'}</span>
-          </div>
-          <div class='mt-4 flex gap-2 flex-wrap'>
-            <button class='btn btn-ghost edit' data-id='${s.id}'><i class="fa-regular fa-pen-to-square"></i> Edit</button>
-            <button class='btn btn-ghost duplicate' data-id='${s.id}'><i class="fa-regular fa-copy"></i> Duplicate</button>
-            <button class='btn btn-ghost danger delete' data-id='${s.id}'><i class="fa-regular fa-trash-can"></i> Delete</button>
-            <button class='btn btn-ghost toggle' data-id='${s.id}'>${s.status==='active'?'Pause':'Activate'}</button>
-          </div>`;
-        list.appendChild(card);
-      });
+          list.className='grid gap-4 md:grid-cols-2';
+          list.innerHTML = '';
+          surveys.forEach(s=>{
+            const card = document.createElement('div'); card.className='card p-5';
+            card.innerHTML = `
+              <div class='flex items-start justify-between'>
+                <div>
+                  <div class='text-xs text-ink-400'>${new Date(s.created).toLocaleString()}</div>
+                  <h3 class='text-lg font-semibold mt-1'>${s.title}</h3>
+                  <div class='text-xs mt-1'>Questions: ${s.questions.length}</div>
+                </div>
+                <span class='px-2 py-1 text-xs rounded bg-white/10'>${s.status||'active'}</span>
+              </div>
+              <div class='mt-4 flex gap-2 flex-wrap'>
+                <button class='btn btn-ghost edit' data-id='${s.id}'><i class="fa-regular fa-pen-to-square"></i> Edit</button>
+                <button class='btn btn-ghost duplicate' data-id='${s.id}'><i class="fa-regular fa-copy"></i> Duplicate</button>
+                <button class='btn btn-ghost danger delete' data-id='${s.id}'><i class="fa-regular fa-trash-can"></i> Delete</button>
+                <button class='btn btn-ghost toggle' data-id='${s.id}'>${s.status==='active'?'Pause':'Activate'}</button>
+              </div>`;
+            list.appendChild(card);
+          });
 
-      // Actions
-      $$('.edit').forEach(b=> b.addEventListener('click',()=> loadSurvey(b.dataset.id)));
-      $$('.delete').forEach(b=> b.addEventListener('click',()=>{ const id=b.dataset.id; const s=getSurveys().filter(x=>x.id!==id); saveSurveys(s); showToast('Deleted'); renderSurveys(); refreshAll(); }));
-      $$('.duplicate').forEach(b=> b.addEventListener('click',()=>{ const id=b.dataset.id; const s=getSurveys(); const src=s.find(x=>x.id===id); if(!src) return; const copy={...src, id:uid('s'), title:src.title+' (copy)', created:todayISO()}; s.push(copy); saveSurveys(s); renderSurveys(); showToast('Duplicated'); }));
-      $$('.toggle').forEach(b=> b.addEventListener('click',()=>{ const id=b.dataset.id; const s=getSurveys(); const it=s.find(x=>x.id===id); if(!it) return; it.status = it.status==='active'?'paused':'active'; saveSurveys(s); renderSurveys(); refreshAll(); }));
+          // Actions
+          $$('.edit').forEach(b=> b.addEventListener('click',()=> loadSurvey(b.dataset.id)));
+          $$('.delete').forEach(b=> b.addEventListener('click',()=>{ 
+            const id=b.dataset.id; 
+            fetch(`/api/surveys/${id}`, { method: 'DELETE' })
+              .then(response => response.json())
+              .then(data => {
+                if(data.success) {
+                  showToast('Deleted'); 
+                  renderSurveys(); 
+                  refreshAll();
+                } else {
+                  showToast('Error deleting survey');
+                }
+              });
+          }));
+          $$('.duplicate').forEach(b=> b.addEventListener('click',()=>{ 
+            const id=b.dataset.id; 
+            fetch(`/api/surveys/${id}/duplicate`, { method: 'POST' })
+              .then(response => response.json())
+              .then(data => {
+                if(data.success) {
+                  renderSurveys(); 
+                  showToast('Duplicated');
+                } else {
+                  showToast('Error duplicating survey');
+                }
+              });
+          }));
+          $$('.toggle').forEach(b=> b.addEventListener('click',()=>{ 
+            const id=b.dataset.id; 
+            fetch(`/api/surveys/${id}/toggle`, { method: 'POST' })
+              .then(response => response.json())
+              .then(data => {
+                if(data.success) {
+                  renderSurveys(); 
+                  refreshAll();
+                } else {
+                  showToast('Error toggling survey status');
+                }
+              });
+          }));
 
-      // Search
-      $('#survey-search').addEventListener('input', e=>{
-        const q = e.target.value.toLowerCase();
-        $$('#surveys-list .card').forEach(c=> c.classList.toggle('hidden', !c.textContent.toLowerCase().includes(q)));
-      });
+          // Search
+          $('#survey-search').addEventListener('input', e=>{
+            const q = e.target.value.toLowerCase();
+            $$('#surveys-list .card').forEach(c=> c.classList.toggle('hidden', !c.textContent.toLowerCase().includes(q)));
+          });
+        });
     }
 
     function loadSurvey(id){
-      const s = getSurveys().find(x=>x.id===id); if(!s) return; routeTo('builder'); emptyCanvas(); $('#builder-title').value = s.title; editingSurveyId = s.id;
-      s.questions.forEach(q=>{ const c = componentCard(q.type); c.querySelector('input.field').value = q.label; c.querySelector('.req').checked = !!q.required; if(q.options){ const ed = c.querySelector('.settings'); ed.innerHTML=''; const ed2 = optionsEditor(); ed.appendChild(ed2); const holder = ed2.querySelector('.add-opt'); q.options.forEach((opt,i)=>{ if(i===0){ ed2.querySelector('.option-row input').value = opt; } else { holder.click(); ed2.querySelectorAll('.option-row input')[i].value = opt; } }); } if(q.max && c.querySelector('input.max')) c.querySelector('input.max').value = q.max; if(q.min && c.querySelector('input.min')) c.querySelector('input.min').value = q.min; if(q.accept && c.querySelector('input[type=text]')) c.querySelector('input[type=text]').value = q.accept; canvas.appendChild(c); });
-      showToast('Loaded in builder');
+      fetch(`/api/surveys/${id}`)
+        .then(response => response.json())
+        .then(s => {
+          if(!s) return; 
+          routeTo('builder'); 
+          emptyCanvas(); 
+          $('#builder-title').value = s.title; 
+          editingSurveyId = s.id;
+          s.questions.forEach(q=>{ 
+            const c = componentCard(q.type); 
+            c.querySelector('input.field').value = q.label; 
+            c.querySelector('.req').checked = !!q.required; 
+            if(q.options){ 
+              const ed = c.querySelector('.settings'); 
+              ed.innerHTML=''; 
+              const ed2 = optionsEditor(); 
+              ed.appendChild(ed2); 
+              const holder = ed2.querySelector('.add-opt'); 
+              q.options.forEach((opt,i)=>{ 
+                if(i===0){ 
+                  ed2.querySelector('.option-row input').value = opt; 
+                } else { 
+                  holder.click(); 
+                  ed2.querySelectorAll('.option-row input')[i].value = opt; 
+                } 
+              }); 
+            } 
+            if(q.max && c.querySelector('input.max')) c.querySelector('input.max').value = q.max; 
+            if(q.min && c.querySelector('input.min')) c.querySelector('input.min').value = q.min; 
+            if(q.accept && c.querySelector('input[type=text]')) c.querySelector('input[type=text]').value = q.accept; 
+            canvas.appendChild(c); 
+          });
+          showToast('Loaded in builder');
+        });
     }
 
     // Audience
     $('#add-contact').addEventListener('click',()=>{
       const name = prompt('Name'); if(!name) return; const email = prompt('Email'); if(!email) return; const group = prompt('Group (optional)')||'';
-      const contacts = getContacts(); contacts.push({ id:uid('c'), name, email, group, status:'active', lastActivity: todayISO() }); saveContacts(contacts); renderAudience(); showToast('Contact added');
+      fetch('/api/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, group, status:'active' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.success) {
+          renderAudience(); 
+          showToast('Contact added');
+        } else {
+          showToast('Error adding contact');
+        }
+      });
     });
 
     function renderAudience(){
-      const t = $('#audience-table'); const c = getContacts();
-      $('#kpi-contacts').textContent = c.length;
-      $('#kpi-contacts-active').textContent = c.filter(x=>x.status==='active').length;
-      $('#kpi-contacts-unsub').textContent = c.filter(x=>x.status==='unsub').length;
-      $('#kpi-contacts-groups').textContent = new Set(c.map(x=>x.group).filter(Boolean)).size;
+      fetch('/api/contacts')
+        .then(response => response.json())
+        .then(c => {
+          const t = $('#audience-table'); 
+          $('#kpi-contacts').textContent = c.length;
+          $('#kpi-contacts-active').textContent = c.filter(x=>x.status==='active').length;
+          $('#kpi-contacts-unsub').textContent = c.filter(x=>x.status==='unsub').length;
+          $('#kpi-contacts-groups').textContent = new Set(c.map(x=>x.group).filter(Boolean)).size;
 
-      if(c.length===0){ t.innerHTML = `<tr><td colspan='5' class='text-center py-8 text-ink-400'><i class="fa-solid fa-address-book text-3xl mb-3 opacity-50"></i><span>${I18N[currentLang()].no_contacts}</span></td></tr>`; $('#empty-ag').classList.remove('hidden'); if(audChart) audChart.destroy(); return; }
+          if(c.length===0){ 
+            t.innerHTML = `<tr><td colspan='5' class='text-center py-8 text-ink-400'><i class="fa-solid fa-address-book text-3xl mb-3 opacity-50"></i><span>${I18N[currentLang()].no_contacts}</span></td></tr>`; 
+            $('#empty-ag').classList.remove('hidden'); 
+            if(audChart) audChart.destroy(); 
+            return; 
+          }
 
-      t.innerHTML = c.map(x=> `<tr class='border-b border-white/5'><td class='py-2'>${x.name}</td><td>${x.email}</td><td>${x.group||'-'}</td><td>${x.status}</td><td>${new Date(x.lastActivity).toLocaleString()}</td></tr>`).join('');
+          t.innerHTML = c.map(x=> `<tr class='border-b border-white/5'><td class='py-2'>${x.name}</td><td>${x.email}</td><td>${x.group||'-'}</td><td>${x.status}</td><td>${new Date(x.lastActivity).toLocaleString()}</td></tr>`).join('');
 
-      // Growth chart (last 30 days)
-      const labels = Array.from({length: 30}).map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(29-i)); return d.toISOString().slice(0,10); });
-      const counts = labels.map(day=> c.filter(x=> x.lastActivity.slice(0,10)===day).length).map((v,i,arr)=> arr.slice(0,i+1).reduce((a,b)=>a+b,0));
-      $('#empty-ag').classList.add('hidden');
-      if(audChart) audChart.destroy();
-      audChart = new Chart($('#chart-audience-growth'), { type:'line', data:{ labels, datasets:[{ label:'Contacts', data:counts, tension:.3, fill:true }]}, options:{ plugins:{legend:{display:false}} }});
+          // Growth chart (last 30 days)
+          const labels = Array.from({length: 30}).map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(29-i)); return d.toISOString().slice(0,10); });
+          const counts = labels.map(day=> c.filter(x=> x.lastActivity.slice(0,10)===day).length).map((v,i,arr)=> arr.slice(0,i+1).reduce((a,b)=>a+b,0));
+          $('#empty-ag').classList.add('hidden');
+          if(audChart) audChart.destroy();
+          audChart = new Chart($('#chart-audience-growth'), { type:'line', data:{ labels, datasets:[{ label:'Contacts', data:counts, tension:.3, fill:true }]}, options:{ plugins:{legend:{display:false}} }});
+        });
     }
 
     // Charts on Analytics page
     function renderAnalytics(){
-      const surveys = getSurveys(); const responses = getResponses();
-      // Populate survey selector
-      const sel = $('#analytics-survey'); sel.innerHTML = surveys.map(s=>`<option value='${s.id}'>${s.title}</option>`).join('');
-      if(!surveys.length){ sel.innerHTML = '<option>(no surveys)</option>'; }
+      fetch('/api/analytics')
+        .then(response => response.json())
+        .then(data => {
+          const surveys = data.surveys || [];
+          const responses = data.responses || [];
+          
+          // Populate survey selector
+          const sel = $('#analytics-survey'); 
+          sel.innerHTML = surveys.map(s=>`<option value='${s.id}'>${s.title}</option>`).join('');
+          if(!surveys.length){ sel.innerHTML = '<option>(no surveys)</option>'; }
 
-      const has = responses.length>0;
-      $('#empty-rr').classList.toggle('hidden', has);
-      $('#empty-db').classList.toggle('hidden', has);
-      if(rrChart) rrChart.destroy(); if(devChart) devChart.destroy();
-      if(!has) return;
+          const has = responses.length>0;
+          $('#empty-rr').classList.toggle('hidden', has);
+          $('#empty-db').classList.toggle('hidden', has);
+          if(rrChart) rrChart.destroy(); if(devChart) devChart.destroy();
+          if(!has) return;
 
-      // Response rate (by day)
-      const labels = [...new Set(responses.map(r=> r.date.slice(0,10)))].sort();
-      const counts = labels.map(d=> responses.filter(r=> r.date.slice(0,10)===d).length);
-      rrChart = new Chart($('#chart-response-rate'), { type:'bar', data:{ labels, datasets:[{ label:'Responses', data:counts }]}, options:{ plugins:{legend:{display:false}} }});
+          // Response rate (by day)
+          if(data.responseRate) {
+            const labels = data.responseRate.labels;
+            const counts = data.responseRate.data;
+            rrChart = new Chart($('#chart-response-rate'), { type:'bar', data:{ labels, datasets:[{ label:'Responses', data:counts }]}, options:{ plugins:{legend:{display:false}} }});
+          }
 
-      // Device breakdown
-      const devices = ['mobile','desktop','tablet'];
-      const dcounts = devices.map(d=> responses.filter(r=>r.device===d).length);
-      devChart = new Chart($('#chart-device-breakdown'), { type:'pie', data:{ labels:devices, datasets:[{ data:dcounts }]}});
+          // Device breakdown
+          if(data.deviceBreakdown) {
+            const devices = Object.keys(data.deviceBreakdown);
+            const dcounts = Object.values(data.deviceBreakdown);
+            devChart = new Chart($('#chart-device-breakdown'), { type:'pie', data:{ labels:devices, datasets:[{ data:dcounts }]}});
+          }
 
-      // Table
-      const tbody = $('#responses-table');
-      const grouped = surveys.map(s=>{
-        const rs = responses.filter(r=>r.surveyId===s.id);
-        const completed = rs.filter(r=>r.completed).length;
-        const rate = rs.length? Math.round((completed/rs.length)*100) : 0;
-        const avgTime = rs.length? (Math.round((rs.reduce((a,_r)=>a+(30+Math.random()*60),0)/rs.length)))+'s' : '-';
-        return `<tr class='border-b border-white/10'><td class='py-2'>${s.title}</td><td>${rs.length}</td><td>${rate}%</td><td>${avgTime}</td><td>${s.status||'active'}</td></tr>`;
-      }).join('');
-      tbody.innerHTML = grouped || `<tr><td colspan='5' class='text-center py-8 text-ink-400'><i class="fa-solid fa-table text-3xl mb-3 opacity-50"></i><span>${I18N[currentLang()].no_resp}</span></td></tr>`;
+          // Table
+          const tbody = $('#responses-table');
+          const grouped = surveys.map(s=>{
+            const rs = responses.filter(r=>r.surveyId===s.id);
+            const completed = rs.filter(r=>r.completed).length;
+            const rate = rs.length? Math.round((completed/rs.length)*100) : 0;
+            const avgTime = rs.length? (Math.round((rs.reduce((a,_r)=>a+(30+Math.random()*60),0)/rs.length)))+'s' : '-';
+            return `<tr class='border-b border-white/10'><td class='py-2'>${s.title}</td><td>${rs.length}</td><td>${rate}%</td><td>${avgTime}</td><td>${s.status||'active'}</td></tr>`;
+          }).join('');
+          tbody.innerHTML = grouped || `<tr><td colspan='5' class='text-center py-8 text-ink-400'><i class="fa-solid fa-table text-3xl mb-3 opacity-50"></i><span>${I18N[currentLang()].no_resp}</span></td></tr>`;
+        });
     }
 
     // Simulate responses (demo to power charts)
     $('#simulate-responses').addEventListener('click',()=>{
-      const surveys = getSurveys(); if(!surveys.length){ showToast('Create a survey first'); return; }
-      const id = $('#analytics-survey').value || surveys[0].id;
-      const r = getResponses();
-      const devices = ['mobile','desktop','tablet'];
-      for(let i=0;i<Math.floor(10+Math.random()*20);i++){
-        const d = new Date(); d.setDate(d.getDate()-Math.floor(Math.random()*30)); d.setHours(Math.floor(Math.random()*24), Math.floor(Math.random()*60), 0, 0);
-        r.push({ id:uid('r'), surveyId:id, date:d.toISOString(), device: devices[Math.floor(Math.random()*devices.length)], completed: Math.random()>0.2 });
-      }
-      saveResponses(r); showToast('Responses simulated'); refreshAll(); routeTo('analytics');
+      const surveyId = $('#analytics-survey').value;
+      if(!surveyId) { showToast('Select a survey first'); return; }
+      
+      fetch(`/api/surveys/${surveyId}/simulate`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          if(data.success) {
+            showToast('Responses simulated'); 
+            refreshAll(); 
+            routeTo('analytics');
+          } else {
+            showToast('Error simulating responses');
+          }
+        });
     });
 
     // Settings
@@ -1092,12 +1177,24 @@
 
     $('#save-profile').addEventListener('click',()=>{
       const profile = { name: $('#profile-name').value, email: $('#profile-email').value, tz: $('#profile-tz').value };
-      set(k.profile, profile); showToast('Profile saved');
+      fetch('/api/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.success) {
+          showToast('Profile saved');
+        } else {
+          showToast('Error saving profile');
+        }
+      });
     });
 
-    $('#pref-compact').addEventListener('change', e=>{ document.body.classList.toggle('text-[15px]', e.target.checked); const p = get(k.prefs, {}); p.compact = e.target.checked; set(k.prefs, p); });
-    $('#pref-dark').addEventListener('change', e=>{ document.documentElement.classList.toggle('dark', e.target.checked); const p = get(k.prefs, {}); p.dark = e.target.checked; set(k.prefs, p); });
-    $('#pref-email').addEventListener('change', e=>{ const p = get(k.prefs, {}); p.email = e.target.checked; set(k.prefs, p); showToast('Email notifications '+(e.target.checked?'on':'off')); });
+    $('#pref-compact').addEventListener('change', e=>{ document.body.classList.toggle('text-[15px]', e.target.checked); });
+    $('#pref-dark').addEventListener('change', e=>{ document.documentElement.classList.toggle('dark', e.target.checked); });
+    $('#pref-email').addEventListener('change', e=>{ showToast('Email notifications '+(e.target.checked?'on':'off')); });
 
     // Global search (quick filter on surveys)
     $('#global-search').addEventListener('input', e=>{
@@ -1110,12 +1207,32 @@
     function refreshAll(){ renderDashboard(); renderSurveys(); renderAnalytics(); renderAudience(); }
 
     function init(){
-      const user = get(k.user, null);
+      // Check if user is logged in
+      fetch('/api/user')
+        .then(response => response.json())
+        .then(user => {
+          if(user && user.id) {
+            $('#auth').classList.add('hidden'); 
+            $('#app').classList.remove('hidden'); 
+            routeTo('dashboard'); 
+            refreshAll();
+            
+            // Load profile data
+            $('#profile-name').value = user.name || '';
+            $('#profile-email').value = user.email || '';
+          } else {
+            $('#auth').classList.remove('hidden'); 
+            $('#app').classList.add('hidden');
+          }
+        })
+        .catch(() => {
+          $('#auth').classList.remove('hidden'); 
+          $('#app').classList.add('hidden');
+        });
+        
       applyI18n(currentLang());
       if(JSON.parse(localStorage.getItem('scp_gov')||'false')) setGovMode(true); else setGovMode(false);
-      const prefs = get(k.prefs, {}); if(prefs.compact) $('#pref-compact').checked=true, document.body.classList.add('text-[15px]'); if(prefs.dark===false) $('#pref-dark').checked=false, document.documentElement.classList.remove('dark');
       draggableSetup();
-      if(user){ gotoApp(); const profile = get(k.profile, {}); $('#profile-name').value = profile.name || user.name || ''; $('#profile-email').value = profile.email || user.email || ''; }
     }
 
     document.addEventListener('DOMContentLoaded', init);
